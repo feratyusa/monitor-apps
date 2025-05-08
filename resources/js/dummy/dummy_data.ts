@@ -26,7 +26,8 @@ export const dummySuppliers: SupplierItem[] = [
         phone1: "+1 212-555-0187",
         phone2: "+1 212-555-0188",
         contact_person: "Sarah Johnson",
-        email: "s.johnson@globaltech.com"
+        email: "s.johnson@globaltech.com",
+        kolekbilitas: 1,
     },
     {
         id: 2,
@@ -35,7 +36,8 @@ export const dummySuppliers: SupplierItem[] = [
         phone1: "+1 312-555-0246",
         phone2: null,
         contact_person: "Michael Chen",
-        email: "michael.chen@premiumoffice.com"
+        email: "michael.chen@premiumoffice.com",
+        kolekbilitas: 2,
     },
     {
         id: 3,
@@ -44,7 +46,8 @@ export const dummySuppliers: SupplierItem[] = [
         phone1: "+1 503-555-0135",
         phone2: "+1 503-555-0136",
         contact_person: "Emily Rodriguez",
-        email: "emily@ecofriendlymaterials.org"
+        email: "emily@ecofriendlymaterials.org",
+        kolekbilitas: 3,
     },
     {
         id: 4,
@@ -53,7 +56,8 @@ export const dummySuppliers: SupplierItem[] = [
         phone1: "+1 305-555-0199",
         phone2: "+1 305-555-0200",
         contact_person: "David Wilson",
-        email: "d.wilson@swiftlogistics.com"
+        email: "d.wilson@swiftlogistics.com",
+        kolekbilitas: 5,
     },
     {
         id: 5,
@@ -62,7 +66,8 @@ export const dummySuppliers: SupplierItem[] = [
         phone1: "+1 415-555-0165",
         phone2: null,
         contact_person: "Jessica Lee",
-        email: "jlee@qualityfooddist.com"
+        email: "jlee@qualityfooddist.com",
+        kolekbilitas: 4,
     },
     {
         id: 6,
@@ -71,7 +76,8 @@ export const dummySuppliers: SupplierItem[] = [
         phone1: "+1 313-555-0222",
         phone2: "+1 313-555-0223",
         contact_person: "Robert Thompson",
-        email: "r.thompson@advmanufacturing.com"
+        email: "r.thompson@advmanufacturing.com",
+        kolekbilitas: 2,
     }
 ];
 

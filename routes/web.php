@@ -52,10 +52,25 @@ Route::middleware(['auth', 'verified'])->group(function () {
         })->name('purchase-orders.detail');
     });
 
+    Route::prefix('suppliers')->group( function() {
+        Route::get('', function () {
+            return Inertia::render('suppliers/suppliers');
+        })->name('suppliers');
 
-    Route::get('suppliers', function () {
-        return Inertia::render('suppliers');
-    })->name('suppliers');
+        Route::get('create', function() {
+            return Inertia::render('suppliers/supplier-form');
+        })->name('suppliers.create');
+
+        Route::get('edit', function() {
+            return Inertia::render('suppliers/supplier-form', [
+                'prep' => true
+            ]);
+        })->name('suppliers.edit');
+
+        Route::get('{id}', function() {
+            return Inertia::render('suppliers/supplier-details');
+        })->name('suppliers.detail');
+    });
 
     Route::get('products', function () {
         return Inertia::render('products');

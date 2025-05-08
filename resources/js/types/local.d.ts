@@ -6,6 +6,7 @@ export interface SupplierItem {
     phone2: string | null,
     contact_person: string,
     email: string,
+    kolekbilitas?: number
 }
 
 export interface ProductItem {

@@ -4,28 +4,29 @@ import React, { useState } from "react"
 import { DataTableToolbar } from "./data-table-toolbar"
 import { DataTablePagination } from "@/components/data-table-pagination"
 import { DataTableColumnHeader } from "@/components/data-table-column-header"
-import { PurchaseOrderItem } from "@/types/local"
+import { SupplierItem } from "@/types/local"
 import { Ellipsis } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Link } from "@inertiajs/react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { DialogConfirmDelete } from "@/components/dialog-confirm-delete"
-import POSheetContent from "../partials/sheet-contents"
+import SupplierSheetContent from "../partials/sheet-contents"
+import CollectbilityBadge from "@/components/collectbility-badge"
 
 interface DataTableProps {
-    data: PurchaseOrderItem[]
+    data: SupplierItem[]
   }
 
-export function PurchaseOrderTable({
+export function SupplierDataTable({
     data,
   }: DataTableProps)  {
 
     const [dialogOpen, setDialogOpen] = useState<boolean | undefined>(false)
-    const [selectedRow, setSelectedRow] = useState<PurchaseOrderItem | null>(null)
+    const [selectedRow, setSelectedRow] = useState<SupplierItem | null>(null)
 
-    function handleDialogOpen(purchase_order : PurchaseOrderItem) {
+    function handleDialogOpen(supplier : SupplierItem) {
         setDialogOpen(true)
-        setSelectedRow(purchase_order)
+        setSelectedRow(supplier)
     }
 
     function handleDialogClose() {
@@ -37,51 +38,46 @@ export function PurchaseOrderTable({
         console.log(selectedRow)
     }
 
-    const columns: ColumnDef<PurchaseOrderItem>[] = [
+    const columns: ColumnDef<SupplierItem>[] = [
         {
-            accessorKey: 'nomor',
-            id: 'no. po',
+            accessorKey: 'name',
             header: ({ column }) => (
-                <DataTableColumnHeader column={column} title="No. PO" />
+                <DataTableColumnHeader column={column} title="Nama" />
             ),
-            cell: ({row}) => <POSheetContent label={row.original.nomor} purchase_order={row.original}/>,
+            cell: ({row}) => <SupplierSheetContent label={row.original.name} supplier={row.original}/>,
         },
         {
-            accessorKey: 'supplier.name',
-            id: 'supplier',
+            accessorKey: 'address',
             header: ({ column }) => (
-                <DataTableColumnHeader column={column} title="Supplier" />
+                <DataTableColumnHeader column={column} title="Alamat" />
             ),
-            cell: ({row}) => <POSheetContent label={row.original.supplier.name} purchase_order={row.original}/>,
-            filterFn: (row, id, value) => {
-                return value.includes(row.getValue(id))
-            },
+            cell: ({row}) => <SupplierSheetContent label={row.original.address} supplier={row.original}/>,
         },
         {
-            accessorKey: 'purchase_date',
+            accessorKey: 'contact_person',
             header: ({ column }) => (
-                <DataTableColumnHeader column={column} title="Tanggal PO" />
+                <DataTableColumnHeader column={column} title="Contact Person" />
             ),
-            cell: ({row}) => <POSheetContent label={row.original.purchase_date} purchase_order={row.original}/>,
+            cell: ({row}) => <SupplierSheetContent label={row.original.contact_person} supplier={row.original}/>,
         },
         {
-            accessorKey: 'quantity',
+            accessorKey: 'phone1',
             header: ({ column }) => (
-                <DataTableColumnHeader column={column} title="Jumlah Unit (L)" />
+                <DataTableColumnHeader column={column} title="Phone" />
             ),
-            cell: ({row}) => <POSheetContent label={row.original.quantity.toLocaleString()} purchase_order={row.original}/>,
+            cell: ({row}) => <SupplierSheetContent label={row.original.phone1} supplier={row.original}/>,
         },
         {
-            accessorKey: 'price',
+            accessorKey: 'kolekbilitas',
             header: ({ column }) => (
-                <DataTableColumnHeader column={column} title="Total Harga" />
+                <DataTableColumnHeader column={column} title="Kolekbilitas" />
             ),
-            cell: ({row}) => <POSheetContent label={`Rp ${row.original.price.toLocaleString()}`} purchase_order={row.original}/>,
+            cell: ({row}) => <CollectbilityBadge number={row.original.kolekbilitas}/>,
         },
         {
             id: 'actions',
             header: 'Actions',
-            cell: ({row}) => <POActionsRow purchase_order={row.original} handleDialogOpen={handleDialogOpen}/>,
+            cell: ({row}) => <SupplierActionsRow supplier={row.original} handleDialogOpen={handleDialogOpen}/>,
             enableHiding: false,
         }
     ]
@@ -159,7 +155,7 @@ export function PurchaseOrderTable({
             </div>
             <DataTablePagination table={table} />
             <DialogConfirmDelete
-                nomor={selectedRow?.nomor ?? ""}
+                nomor={selectedRow?.name ?? ""}
                 open={dialogOpen}
                 handleDelete={handleDelete}
                 handleDialogClose={handleDialogClose}
@@ -168,12 +164,12 @@ export function PurchaseOrderTable({
     )
 }
 
-interface POActionRowProps {
-    purchase_order: PurchaseOrderItem
-    handleDialogOpen: (purchase_order : PurchaseOrderItem) => void
+interface SupplierActionRowProps {
+    supplier: SupplierItem
+    handleDialogOpen: (supplier : SupplierItem) => void
 }
 
-function POActionsRow({purchase_order, handleDialogOpen} : POActionRowProps) {
+function SupplierActionsRow({supplier, handleDialogOpen} : SupplierActionRowProps) {
     return(
         <div className="flex gap-2">
             <DropdownMenu>
@@ -184,17 +180,17 @@ function POActionsRow({purchase_order, handleDialogOpen} : POActionRowProps) {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                     <DropdownMenuGroup>
-                        <Link href={route('purchase-orders.detail', [1])}>
+                        <Link href={route('suppliers.detail', [1])}>
                             <DropdownMenuItem>
                                 Lihat
                             </DropdownMenuItem>
                         </Link>
-                        <Link href={route('purchase-orders.edit', [1])}>
+                        {/* <Link href={route('suppliers.edit', [1])}> */}
                             <DropdownMenuItem>
                                 Edit
                             </DropdownMenuItem>
-                        </Link>
-                        <DropdownMenuItem onClick={() => handleDialogOpen(purchase_order)}>
+                        {/* </Link> */}
+                        <DropdownMenuItem onClick={() => handleDialogOpen(supplier)}>
                             Hapus
                         </DropdownMenuItem>
                     </DropdownMenuGroup>

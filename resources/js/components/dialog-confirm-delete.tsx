@@ -22,7 +22,7 @@ export function DialogConfirmDelete({nomor, open, handleDialogClose, handleDelet
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                 <AlertDialogCancel onClick={handleDialogClose}>Cancel</AlertDialogCancel>
-                <AlertDialogAction className="bg-red-500 text-white" onClick={handleDelete}>Hapus</AlertDialogAction>
+                <AlertDialogAction className="bg-red-500 text-white hover:bg-red-700" onClick={handleDelete}>Hapus</AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>
