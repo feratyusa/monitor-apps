@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('discount');
             $table->integer('total_amount');
             $table->date('due_date');
-            $table->decimal('payment_status', 1, 0);
+            $table->boolean('payment_status');
             $table->string('bank');
             $table->timestamps();
         });
