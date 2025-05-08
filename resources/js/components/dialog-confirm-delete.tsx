@@ -3,27 +3,26 @@ import { Button } from "@/components/ui/button";
 import { InvoiceItem } from "@/types/local";
 import { SetStateAction } from "react";
 
-interface DialogConfirmDeleteInvoiceProps {
+interface DialogConfirmDeleteProps {
     nomor: string,
     open: boolean | undefined,
     handleDialogClose: () => void
     handleDelete: () => void
 }
 
-export function DialogConfirmDeleteInvoice({nomor, open, handleDialogClose, handleDelete} : DialogConfirmDeleteInvoiceProps) {
+export function DialogConfirmDelete({nomor, open, handleDialogClose, handleDelete} : DialogConfirmDeleteProps) {
     return(
         <AlertDialog open={open} onOpenChange={(isOpen) => isOpen == false ? handleDialogClose : {}}>
             <AlertDialogContent>
                 <AlertDialogHeader>
                 <AlertDialogTitle>Hapus {nomor}</AlertDialogTitle>
                 <AlertDialogDescription>
-                    This action cannot be undone. This will permanently delete your
-                    invoice and remove your data from our servers.
+                    This action cannot be undone. This will permanently delete your data from our servers.
                 </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                 <AlertDialogCancel onClick={handleDialogClose}>Cancel</AlertDialogCancel>
-                <AlertDialogAction onClick={handleDelete}>Continue</AlertDialogAction>
+                <AlertDialogAction className="bg-red-500 text-white" onClick={handleDelete}>Hapus</AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>

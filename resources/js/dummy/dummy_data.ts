@@ -2,14 +2,17 @@ import { InvoiceItem, ProductItem, PurchaseOrderItem, SupplierItem } from "@/typ
 
 export const dummyProducts: ProductItem[] = [
     {
+        id: 1,
         name: "BIOSOLAR (60)",
         price_per_unit: 13000,
     },
     {
+        id: 2,
         name: "BIOSOLAR (70)",
         price_per_unit: 14000,
     },
     {
+        id: 3,
         name: "BIOSOLAR (80)",
         price_per_unit: 12800,
     },
@@ -17,6 +20,7 @@ export const dummyProducts: ProductItem[] = [
 
 export const dummySuppliers: SupplierItem[] = [
     {
+        id: 1,
         name: "Global Tech Solutions",
         address: "123 Business Park, Suite 450, New York, NY 10001",
         phone1: "+1 212-555-0187",
@@ -25,6 +29,7 @@ export const dummySuppliers: SupplierItem[] = [
         email: "s.johnson@globaltech.com"
     },
     {
+        id: 2,
         name: "Premium Office Supplies",
         address: "456 Commerce Street, Chicago, IL 60601",
         phone1: "+1 312-555-0246",
@@ -33,6 +38,7 @@ export const dummySuppliers: SupplierItem[] = [
         email: "michael.chen@premiumoffice.com"
     },
     {
+        id: 3,
         name: "Eco-Friendly Materials Co.",
         address: "789 Green Avenue, Portland, OR 97201",
         phone1: "+1 503-555-0135",
@@ -41,6 +47,7 @@ export const dummySuppliers: SupplierItem[] = [
         email: "emily@ecofriendlymaterials.org"
     },
     {
+        id: 4,
         name: "Swift Logistics International",
         address: "321 Transport Lane, Miami, FL 33101",
         phone1: "+1 305-555-0199",
@@ -49,6 +56,7 @@ export const dummySuppliers: SupplierItem[] = [
         email: "d.wilson@swiftlogistics.com"
     },
     {
+        id: 5,
         name: "Quality Food Distributors",
         address: "654 Market Street, San Francisco, CA 94103",
         phone1: "+1 415-555-0165",
@@ -57,6 +65,7 @@ export const dummySuppliers: SupplierItem[] = [
         email: "jlee@qualityfooddist.com"
     },
     {
+        id: 6,
         name: "Advanced Manufacturing Inc.",
         address: "987 Industrial Way, Detroit, MI 48201",
         phone1: "+1 313-555-0222",

@@ -38,17 +38,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
         })->name('purchase-orders');
 
         Route::get('create', function() {
-            return Inertia::render('purchase-orders/purchase-orders-form');
+            return Inertia::render('purchase-orders/purchase-order-form');
         })->name('purchase-orders.create');
 
         Route::get('edit', function() {
-            return Inertia::render('purchase-orders/purchase-orders-form', [
+            return Inertia::render('purchase-orders/purchase-order-form', [
                 'prep' => true
             ]);
         })->name('purchase-orders.edit');
 
         Route::get('{id}', function() {
-            return Inertia::render('purchase-orders/purchase-orders-details');
+            return Inertia::render('purchase-orders/purchase-order-details');
         })->name('purchase-orders.detail');
     });
 

@@ -1,4 +1,5 @@
 export interface SupplierItem {
+    id: number,
     name: string,
     address: string,
     phone1: string,
@@ -8,6 +9,7 @@ export interface SupplierItem {
 }
 
 export interface ProductItem {
+    id: number,
     name: string,
     price_per_unit: number,
 }

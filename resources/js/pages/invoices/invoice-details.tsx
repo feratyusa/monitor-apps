@@ -14,7 +14,7 @@ import { ProductItem, PurchaseOrderItem, SupplierItem, type InvoiceItem } from "
 import { Head, Link } from "@inertiajs/react";
 import { Building2, CogIcon, Trash } from "lucide-react";
 import { useState } from "react";
-import { DialogConfirmDeleteInvoice } from "./partials/dialog-confirm-delete";
+import { DialogConfirmDelete } from "@/components/dialog-confirm-delete";
 
 export default function InvoiceDetails({invoice = dummyInvoices[0]} : {invoice: InvoiceItem}) {
 
@@ -238,7 +238,7 @@ function InvoiceActionButtons({invoice} : {invoice: InvoiceItem}) {
                 <Trash />
                 Hapus
             </Button>
-            <DialogConfirmDeleteInvoice
+            <DialogConfirmDelete
                 nomor={invoice.nomor}
                 open={openDialog}
                 handleDialogClose={handleDialogClose}

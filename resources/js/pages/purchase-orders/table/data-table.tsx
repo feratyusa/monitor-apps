@@ -4,31 +4,28 @@ import React, { useState } from "react"
 import { DataTableToolbar } from "./data-table-toolbar"
 import { DataTablePagination } from "@/components/data-table-pagination"
 import { DataTableColumnHeader } from "@/components/data-table-column-header"
-import InvoiceSheetContents from "../partials/sheet-contents"
-import { InvoiceItem } from "@/types/local"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-import CollectbilityBadge from "@/components/collectbility-badge"
-import PaymentStatusBadge from "@/components/paymentstatus-badge"
-import { RefreshCcwDot, Ellipsis } from "lucide-react"
+import { PurchaseOrderItem } from "@/types/local"
+import { Ellipsis } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Link } from "@inertiajs/react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { DialogConfirmDelete } from "@/components/dialog-confirm-delete"
+import POSheetContent from "../partials/sheet-contents"
 
 interface DataTableProps {
-    data: InvoiceItem[]
+    data: PurchaseOrderItem[]
   }
 
-export function InvoicesDataTable({
+export function PurchaseOrderTable({
     data,
   }: DataTableProps)  {
 
     const [dialogOpen, setDialogOpen] = useState<boolean | undefined>(false)
-    const [selectedRow, setSelectedRow] = useState<InvoiceItem | null>(null)
+    const [selectedRow, setSelectedRow] = useState<PurchaseOrderItem | null>(null)
 
-    function handleDialogOpen(invoice : InvoiceItem) {
+    function handleDialogOpen(purchase_order : PurchaseOrderItem) {
         setDialogOpen(true)
-        setSelectedRow(invoice)
+        setSelectedRow(purchase_order)
     }
 
     function handleDialogClose() {
@@ -40,100 +37,51 @@ export function InvoicesDataTable({
         console.log(selectedRow)
     }
 
-    const columns: ColumnDef<InvoiceItem>[] = [
+    const columns: ColumnDef<PurchaseOrderItem>[] = [
         {
             accessorKey: 'nomor',
             id: 'no. invoice',
             header: ({ column }) => (
                 <DataTableColumnHeader column={column} title="No. Invoice" />
             ),
-            cell: ({row}) => <InvoiceSheetContents label={row.original.nomor} invoice={row.original}/>,
+            cell: ({row}) => <POSheetContent label={row.original.nomor} purchase_order={row.original}/>,
         },
         {
-            accessorKey: 'purchase_order.supplier.name',
+            accessorKey: 'supplier.name',
             id: 'supplier',
             header: ({ column }) => (
                 <DataTableColumnHeader column={column} title="Supplier" />
             ),
-            cell: ({row}) => <InvoiceSheetContents label={row.original.purchase_order.supplier.name} invoice={row.original}/>
-        },
-        {
-            accessorKey: 'invoice_date',
-            id: 'tanggal invoice',
-            header: ({ column }) => (
-                <DataTableColumnHeader column={column} title="Tanggal Invoice" />
-            ),
-            cell: ({row}) => <InvoiceSheetContents label={row.original.invoice_date} invoice={row.original}/>
-        },
-        {
-            accessorKey: 'due_date',
-            id: 'jatuh tempo',
-            header: ({ column }) => (
-                <DataTableColumnHeader column={column} title="Jatuh Tempo" />
-            ),
-            cell: ({row}) => <InvoiceSheetContents label={row.original.due_date} invoice={row.original}/>
-        },
-        {
-            accessorFn: (row, index) => {
-                return row.purchase_order.price * (1 - row.discount);
+            cell: ({row}) => <POSheetContent label={row.original.supplier.name} purchase_order={row.original}/>,
+            filterFn: (row, id, value) => {
+                return value.includes(row.getValue(id))
             },
-            id: 'jumlah harga',
+        },
+        {
+            accessorKey: 'purchase_date',
+            header: ({ column }) => (
+                <DataTableColumnHeader column={column} title="Tanggal PO" />
+            ),
+            cell: ({row}) => <POSheetContent label={row.original.purchase_date} purchase_order={row.original}/>,
+        },
+        {
+            accessorKey: 'quantity',
+            header: ({ column }) => (
+                <DataTableColumnHeader column={column} title="Jumlah Unit (L)" />
+            ),
+            cell: ({row}) => <POSheetContent label={row.original.quantity.toLocaleString()} purchase_order={row.original}/>,
+        },
+        {
+            accessorKey: 'price',
             header: ({ column }) => (
                 <DataTableColumnHeader column={column} title="Total Harga" />
             ),
-            cell: ({row}) => <InvoiceSheetContents label={`Rp ${(row.original.purchase_order.price * (1 - row.original.discount)).toLocaleString()},00`} invoice={row.original}/>,
-            sortingFn: (rowa, rowb, id) => {
-                const valuea = rowa.original.purchase_order.price * (1 - rowa.original.discount)
-                const valueb = rowb.original.purchase_order.price * (1 - rowb.original.discount)
-                if(valuea < valueb) return -1;
-                else if(valuea === valueb) return 0;
-                return 1;
-            },
-        },
-        {
-            id: 'status',
-            accessorFn: (row, id) => row.payment_status ? "1" : "0",
-            header: ({ column }) => (
-                <DataTableColumnHeader column={column} title="Status" />
-            ),
-            cell: ({row}) => <PaymentStatusBadge status={row.original.payment_status}></PaymentStatusBadge>,
-            filterFn: (row, id, value) => {
-                return value.includes(row.getValue(id))
-            },
-        },
-        {
-            id: "kolekbilitas",
-            accessorFn: (row, index) => {
-                const val = (new Date(row.due_date).getTime() - new Date().getTime()) / (1000 * 3600 * 24)
-                if(row.payment_status || val >= 0 ) return "1"
-                else if(val >= -90) return "2"
-                else if(val >= -120) return "3"
-                else if(val >= -180) return "4"
-                return "5"
-            },
-            header: ({ column }) => (
-                <DataTableColumnHeader column={column} title="Kolekbilitas" />
-            ),
-            cell: ({row}) => <CollectbilityBadge due_date={row.original.due_date} status={row.original.payment_status}/>,
-            sortingFn: (rowa, rowb, id) => {
-                const valuea = new Date().getTime() - new Date(rowa.original.due_date).getTime()
-                const valueb = new Date().getTime() - new Date(rowb.original.due_date).getTime()
-                if((rowa.original.payment_status == true && rowb.original.payment_status == false)) return -1;
-                else if((rowa.original.payment_status === rowb.original.payment_status)) {
-                    if(valuea < valueb) return -1;
-                    else if(valuea === valueb) return 0;
-                    return 1;
-                }
-                return 1;
-            },
-            filterFn: (row, id, value) => {
-                return value.includes(row.getValue(id))
-            },
+            cell: ({row}) => <POSheetContent label={`Rp ${row.original.price.toLocaleString()}`} purchase_order={row.original}/>,
         },
         {
             id: 'actions',
             header: 'Actions',
-            cell: ({row}) => <InvoiceActionsRow invoice={row.original} handleDialogOpen={handleDialogOpen}/>,
+            cell: ({row}) => <POActionsRow purchase_order={row.original} handleDialogOpen={handleDialogOpen}/>,
             enableHiding: false,
         }
     ]
@@ -149,6 +97,11 @@ export function InvoicesDataTable({
         state: {
             sorting,
             columnFilters,
+        },
+        initialState: {
+            columnVisibility: {
+                quantity: false
+            }
         },
         onSortingChange: setSorting,
         onColumnFiltersChange: setColumnFilters,
@@ -215,26 +168,14 @@ export function InvoicesDataTable({
     )
 }
 
-interface InvoiceActionRowProps {
-    invoice: InvoiceItem
-    handleDialogOpen: (invoice : InvoiceItem) => void
+interface POActionRowProps {
+    purchase_order: PurchaseOrderItem
+    handleDialogOpen: (purchase_order : PurchaseOrderItem) => void
 }
 
-function InvoiceActionsRow({invoice, handleDialogOpen} : InvoiceActionRowProps) {
+function POActionsRow({purchase_order, handleDialogOpen} : POActionRowProps) {
     return(
         <div className="flex gap-2">
-            <TooltipProvider>
-                <Tooltip>
-                    <TooltipTrigger asChild>
-                        <Button variant={"ghost"} size={"icon"}>
-                            <RefreshCcwDot />
-                        </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                        <p>Ubah Status Pembayaran</p>
-                    </TooltipContent>
-                </Tooltip>
-            </TooltipProvider>
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button variant={"ghost"} size={"icon"}>
@@ -243,17 +184,17 @@ function InvoiceActionsRow({invoice, handleDialogOpen} : InvoiceActionRowProps) 
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                     <DropdownMenuGroup>
-                        <Link href={route('invoices.detail', [1])}>
+                        <Link href={route('purchase-orders.detail', [1])}>
                             <DropdownMenuItem>
                                 Lihat
                             </DropdownMenuItem>
                         </Link>
-                        <Link href={route('invoices.edit', [1])}>
+                        <Link href={route('purchase-orders.edit', [1])}>
                             <DropdownMenuItem>
                                 Edit
                             </DropdownMenuItem>
                         </Link>
-                        <DropdownMenuItem onClick={() => handleDialogOpen(invoice)}>
+                        <DropdownMenuItem onClick={() => handleDialogOpen(purchase_order)}>
                             Hapus
                         </DropdownMenuItem>
                     </DropdownMenuGroup>
