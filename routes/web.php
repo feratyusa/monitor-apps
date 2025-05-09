@@ -3,11 +3,12 @@
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('welcome');
-})->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/', function () {
+        return Inertia::render('dashboard');
+    })->name('home');
+
     Route::get('dashboard', function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
@@ -57,24 +58,41 @@ Route::middleware(['auth', 'verified'])->group(function () {
             return Inertia::render('suppliers/suppliers');
         })->name('suppliers');
 
-        Route::get('create', function() {
-            return Inertia::render('suppliers/supplier-form');
-        })->name('suppliers.create');
+        // Route::get('create', function() {
+        //     return Inertia::render('suppliers/supplier-form');
+        // })->name('suppliers.create');
 
-        Route::get('edit', function() {
-            return Inertia::render('suppliers/supplier-form', [
-                'prep' => true
-            ]);
-        })->name('suppliers.edit');
+        // Route::get('edit', function() {
+        //     return Inertia::render('suppliers/supplier-form', [
+        //         'prep' => true
+        //     ]);
+        // })->name('suppliers.edit');
 
         Route::get('{id}', function() {
             return Inertia::render('suppliers/supplier-details');
         })->name('suppliers.detail');
     });
 
-    Route::get('products', function () {
-        return Inertia::render('products');
-    })->name('products');
+    Route::prefix('products')->group( function() {
+        Route::get('', function () {
+            return Inertia::render('products/products');
+        })->name('products');
+
+        // Route::get('create', function() {
+        //     return Inertia::render('products/product-form');
+        // })->name('products.create');
+
+        // Route::get('edit', function() {
+        //     return Inertia::render('products/product-form', [
+        //         'prep' => true
+        //     ]);
+        // })->name('products.edit');
+
+        Route::get('{id}', function() {
+            return Inertia::render('products/product-details');
+        })->name('products.detail');
+    });
+
 });
 
 require __DIR__.'/settings.php';

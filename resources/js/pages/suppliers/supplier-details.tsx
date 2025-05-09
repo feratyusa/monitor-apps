@@ -122,12 +122,12 @@ function SupplierActionButtons({supplier} : {supplier: SupplierItem}) {
 
     return(
         <div className="flex gap-2">
-            <Link href={route('suppliers.edit', [1])}>
+            {/* <Link href={route('suppliers.edit', [1])}> */}
                 <Button>
                     <CogIcon />
                     Edit
                 </Button>
-            </Link>
+            {/* </Link> */}
             <Button variant={"destructive"} onClick={handleDialogOpen}>
                 <Trash />
                 Hapus
