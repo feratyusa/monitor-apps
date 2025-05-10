@@ -180,7 +180,7 @@ function SupplierActionsRow({supplier, handleDialogOpen} : SupplierActionRowProp
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                     <DropdownMenuGroup>
-                        <Link href={route('suppliers.detail', [1])}>
+                        <Link href={route('suppliers.detail', [supplier.id])}>
                             <DropdownMenuItem>
                                 Lihat
                             </DropdownMenuItem>

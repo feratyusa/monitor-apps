@@ -5,25 +5,33 @@ import { DataTableToolbar } from "./data-table-toolbar"
 import { DataTablePagination } from "@/components/data-table-pagination"
 import { DataTableColumnHeader } from "@/components/data-table-column-header"
 import InvoiceSheetContents from "../partials/sheet-contents"
-import { InvoiceItem } from "@/types/local"
+import { InvoiceItem, SelectOptionAttribute } from "@/types/local"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import CollectbilityBadge from "@/components/collectbility-badge"
 import PaymentStatusBadge from "@/components/paymentstatus-badge"
 import { RefreshCcwDot, Ellipsis } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Link } from "@inertiajs/react"
+import { Link, useForm } from "@inertiajs/react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { DialogConfirmDelete } from "@/components/dialog-confirm-delete"
+import { DialogSwitchPayment } from "../partials/dialog-switch-payment"
 
 interface DataTableProps {
-    data: InvoiceItem[]
+    data: InvoiceItem[],
+    kolSelection: SelectOptionAttribute[]
+    paidmentSelection: SelectOptionAttribute[]
   }
 
 export function InvoicesDataTable({
     data,
+    kolSelection,
+    paidmentSelection,
   }: DataTableProps)  {
 
+    const {delete: destroy, put} = useForm()
+
     const [dialogOpen, setDialogOpen] = useState<boolean | undefined>(false)
+    const [switchDialogOpen, setSwitchDialogOpen] = useState<boolean | undefined>(false)
     const [selectedRow, setSelectedRow] = useState<InvoiceItem | null>(null)
 
     function handleDialogOpen(invoice : InvoiceItem) {
@@ -38,6 +46,26 @@ export function InvoicesDataTable({
 
     function handleDelete() {
         console.log(selectedRow)
+        destroy(route('invoices.destroy', [selectedRow?.id]), {
+            onSuccess: handleDialogClose
+        })
+    }
+
+    function handleSwitchDialogOpen(invoice: InvoiceItem) {
+        setSwitchDialogOpen(true)
+        setSelectedRow(invoice)
+    }
+
+    function handleSwitchDialogClose() {
+        setSwitchDialogOpen(false)
+        setSelectedRow(null)
+    }
+
+    function handleSwitchPaymentStatus(){
+        console.log(selectedRow)
+        put(route('invoices.switch-payment', [selectedRow?.id]), {
+            onSuccess: handleSwitchDialogClose
+        })
     }
 
     const columns: ColumnDef<InvoiceItem>[] = [
@@ -75,16 +103,16 @@ export function InvoicesDataTable({
         },
         {
             accessorFn: (row, index) => {
-                return row.purchase_order.price * (1 - row.discount);
+                return row.purchase_order.price * (100 - row.discount) / 100;
             },
             id: 'jumlah harga',
             header: ({ column }) => (
                 <DataTableColumnHeader column={column} title="Total Harga" />
             ),
-            cell: ({row}) => <InvoiceSheetContents label={`Rp ${(row.original.purchase_order.price * (1 - row.original.discount)).toLocaleString()},00`} invoice={row.original}/>,
+            cell: ({row}) => <InvoiceSheetContents label={`Rp ${(row.original.purchase_order.price * (100 - row.original.discount) / 100).toLocaleString()},00`} invoice={row.original}/>,
             sortingFn: (rowa, rowb, id) => {
-                const valuea = rowa.original.purchase_order.price * (1 - rowa.original.discount)
-                const valueb = rowb.original.purchase_order.price * (1 - rowb.original.discount)
+                const valuea = rowa.original.purchase_order.price * (100 - rowa.original.discount) / 100
+                const valueb = rowb.original.purchase_order.price * (100 - rowb.original.discount) / 100
                 if(valuea < valueb) return -1;
                 else if(valuea === valueb) return 0;
                 return 1;
@@ -133,7 +161,12 @@ export function InvoicesDataTable({
         {
             id: 'actions',
             header: 'Actions',
-            cell: ({row}) => <InvoiceActionsRow invoice={row.original} handleDialogOpen={handleDialogOpen}/>,
+            cell: ({row}) =>
+                <InvoiceActionsRow
+                    invoice={row.original}
+                    handleDialogOpen={handleDialogOpen}
+                    handleSwitchDialogOpen={handleSwitchDialogOpen}
+                />,
             enableHiding: false,
         }
     ]
@@ -160,7 +193,7 @@ export function InvoicesDataTable({
 
     return(
         <div className="space-y-4">
-            <DataTableToolbar table={table} />
+            <DataTableToolbar table={table} kolSelection={kolSelection} paidmentSelection={paidmentSelection} />
             <div className="rounded-md border">
                 <Table>
                     <TableHeader>
@@ -211,6 +244,12 @@ export function InvoicesDataTable({
                 handleDelete={handleDelete}
                 handleDialogClose={handleDialogClose}
             />
+            <DialogSwitchPayment
+                nomor={selectedRow?.nomor ?? ""}
+                open={switchDialogOpen}
+                handleDialogClose={handleSwitchDialogClose}
+                handleSwitchPayment={handleSwitchPaymentStatus}
+            />
         </div>
     )
 }
@@ -218,15 +257,16 @@ export function InvoicesDataTable({
 interface InvoiceActionRowProps {
     invoice: InvoiceItem
     handleDialogOpen: (invoice : InvoiceItem) => void
+    handleSwitchDialogOpen: (invoice: InvoiceItem) => void
 }
 
-function InvoiceActionsRow({invoice, handleDialogOpen} : InvoiceActionRowProps) {
+function InvoiceActionsRow({invoice, handleDialogOpen, handleSwitchDialogOpen} : InvoiceActionRowProps) {
     return(
         <div className="flex gap-2">
             <TooltipProvider>
                 <Tooltip>
                     <TooltipTrigger asChild>
-                        <Button variant={"ghost"} size={"icon"}>
+                        <Button variant={"ghost"} size={"icon"} onClick={() => handleSwitchDialogOpen(invoice)}>
                             <RefreshCcwDot />
                         </Button>
                     </TooltipTrigger>
@@ -243,12 +283,12 @@ function InvoiceActionsRow({invoice, handleDialogOpen} : InvoiceActionRowProps) 
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                     <DropdownMenuGroup>
-                        <Link href={route('invoices.detail', [1])}>
+                        <Link href={route('invoices.detail', [invoice.id])}>
                             <DropdownMenuItem>
                                 Lihat
                             </DropdownMenuItem>
                         </Link>
-                        <Link href={route('invoices.edit', [1])}>
+                        <Link href={route('invoices.edit', [invoice.id])}>
                             <DropdownMenuItem>
                                 Edit
                             </DropdownMenuItem>

@@ -46,8 +46,6 @@ export default function DashboardSupplierKolChart({data} : DashboardSupplierKolC
         {...data[4], fill: "var(--color-kol5)"},
     ]
 
-    console.log(chartData)
-
     return(
         <ChartContainer config={config} className="min-h-[200px] w-full">
             <PieChart>

@@ -83,6 +83,7 @@ export const dummySuppliers: SupplierItem[] = [
 
 export const dummyPurchaseOrders: PurchaseOrderItem[] = [
     {
+        id:1,
         nomor: "PO-2023-001",
         supplier: dummySuppliers[0], // Global Tech Solutions
         product: dummyProducts[0], // BIOSOLAR (60)
@@ -91,6 +92,7 @@ export const dummyPurchaseOrders: PurchaseOrderItem[] = [
         price: 650000 // 50 * 13000
     },
     {
+        id:2,
         nomor: "PO-2023-002",
         supplier: dummySuppliers[1], // Premium Office Supplies
         product: dummyProducts[1], // BIOSOLAR (70)
@@ -99,6 +101,7 @@ export const dummyPurchaseOrders: PurchaseOrderItem[] = [
         price: 490000 // 35 * 14000
     },
     {
+        id:3,
         nomor: "PO-2023-003",
         supplier: dummySuppliers[2], // Eco-Friendly Materials Co.
         product: dummyProducts[2], // BIOSOLAR (80)
@@ -107,6 +110,7 @@ export const dummyPurchaseOrders: PurchaseOrderItem[] = [
         price: 537600 // 42 * 12800
     },
     {
+        id:4,
         nomor: "PO-2023-004",
         supplier: dummySuppliers[3], // Swift Logistics International
         product: dummyProducts[0], // BIOSOLAR (60)
@@ -115,6 +119,7 @@ export const dummyPurchaseOrders: PurchaseOrderItem[] = [
         price: 780000 // 60 * 13000
     },
     {
+        id:5,
         nomor: "PO-2023-005",
         supplier: dummySuppliers[4], // Quality Food Distributors
         product: dummyProducts[1], // BIOSOLAR (70)
@@ -123,6 +128,7 @@ export const dummyPurchaseOrders: PurchaseOrderItem[] = [
         price: 392000 // 28 * 14000
     },
     {
+        id:6,
         nomor: "PO-2023-006",
         supplier: dummySuppliers[5], // Advanced Manufacturing Inc.
         product: dummyProducts[2], // BIOSOLAR (80)
@@ -131,6 +137,7 @@ export const dummyPurchaseOrders: PurchaseOrderItem[] = [
         price: 704000 // 55 * 12800
     },
     {
+        id:7,
         nomor: "PO-2023-007",
         supplier: dummySuppliers[0], // Global Tech Solutions
         product: dummyProducts[1], // BIOSOLAR (70)
@@ -139,6 +146,7 @@ export const dummyPurchaseOrders: PurchaseOrderItem[] = [
         price: 560000 // 40 * 14000
     },
     {
+        id:8,
         nomor: "PO-2023-008",
         supplier: dummySuppliers[2], // Eco-Friendly Materials Co.
         product: dummyProducts[0], // BIOSOLAR (60)
@@ -147,6 +155,7 @@ export const dummyPurchaseOrders: PurchaseOrderItem[] = [
         price: 975000 // 75 * 13000
     },
     {
+        id:9,
         nomor: "PO-2023-009",
         supplier: dummySuppliers[4], // Quality Food Distributors
         product: dummyProducts[2], // BIOSOLAR (80)
@@ -155,6 +164,7 @@ export const dummyPurchaseOrders: PurchaseOrderItem[] = [
         price: 384000 // 30 * 12800
     },
     {
+        id:10,
         nomor: "PO-2023-010",
         supplier: dummySuppliers[3], // Swift Logistics International
         product: dummyProducts[1], // BIOSOLAR (70)
@@ -166,6 +176,7 @@ export const dummyPurchaseOrders: PurchaseOrderItem[] = [
 
 export const dummyInvoices: InvoiceItem[] = [
     {
+        id: 1,
         nomor: "INV-2024-001",
         invoice_date: "2025-01-15",
         due_date: "2025-04-14",
@@ -176,6 +187,7 @@ export const dummyInvoices: InvoiceItem[] = [
         bank: "Bank Jatim",
     },
     {
+        id: 2,
         nomor: "INV-2024-002",
         invoice_date: "2025-03-20",
         due_date: "2025-06-19",
@@ -186,6 +198,7 @@ export const dummyInvoices: InvoiceItem[] = [
         bank: "Bank Mandiri",
     },
     {
+        id: 3,
         nomor: "INV-2024-003",
         invoice_date: "2024-01-25",
         due_date: "2024-02-24",
@@ -196,6 +209,7 @@ export const dummyInvoices: InvoiceItem[] = [
         bank: "Bank BCA",
     },
     {
+        id: 4,
         nomor: "INV-2024-004",
         invoice_date: "2024-11-10",
         due_date: "2025-01-11",
@@ -206,6 +220,7 @@ export const dummyInvoices: InvoiceItem[] = [
         bank: "CIMB Niaga",
     },
     {
+        id: 5,
         nomor: "INV-2024-005",
         invoice_date: "2025-01-15",
         due_date: "2025-02-16",
@@ -216,6 +231,7 @@ export const dummyInvoices: InvoiceItem[] = [
         bank: "Bank Jatim",
     },
     {
+        id: 6,
         nomor: "INV-2024-006",
         invoice_date: "2024-10-20",
         due_date: "2024-12-21",
@@ -226,6 +242,7 @@ export const dummyInvoices: InvoiceItem[] = [
         bank: "Bank BRI",
     },
     {
+        id: 7,
         nomor: "INV-2024-007",
         invoice_date: "2025-03-05",
         due_date: "2025-05-04",

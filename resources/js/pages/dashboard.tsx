@@ -6,27 +6,26 @@ import { Separator } from '@/components/ui/separator';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
-import { ArrowBigUp, ArrowDown10, ArrowUp10, Building2, ListOrdered, Wallet } from 'lucide-react';
+import { ArrowBigUp, ArrowDown10, Building2, ListOrdered, Wallet } from 'lucide-react';
 
 const dummyIncome: ReceivableData[] = [
-    {year: "2022", paid: 35000000, unpaid: 2000000, overdue: 10000000},
-    {year: "2023", paid: 70000000, unpaid: 30000000, overdue: 25000000},
-    {year: "2024", paid: 40000000, unpaid: 20000000, overdue: 10000000},
-    {year: "2025", paid: 80000000, unpaid: 10000000, overdue: 30000000},
+    {year: "2022", paid: 35000000, unpaid: 0, overdue: 10000000},
+    {year: "2023", paid: 70000000, unpaid: 0, overdue: 25000000},
+    {year: "2024", paid: 40000000, unpaid: 0, overdue: 10000000},
+    {year: "2025", paid: 80000000, unpaid: 8000000, overdue: 30000000},
 ]
 
 const dummyInvoiceCounts: InvoiceCounts = {
-    paid: 862,
-    last_paid: 923,
-    unpaid: 214,
-    last_unpaid: 234,
-    overdue: 82,
-    last_overdue: 10
+    paid: 83,
+    last_paid: 67,
+    unpaid: 32,
+    overdue: 12,
+    last_overdue: 20
 }
 
 const dummyRevenueLoss: RevenueData = {
     revenueIncrease: 35000000,
-    total_revenue: 1000050000000,
+    total_revenue: 1050000000,
 }
 
 const dummySupplierChartData: SupplierChartData[] = [
@@ -49,13 +48,12 @@ interface RevenueData {
     total_revenue: number
 }
 
-const ONE_TRILIUN = 1000000000000
-
 interface DashboardProps {
     receivables?: ReceivableData[]
     counts?: InvoiceCounts
     revenue?: RevenueData,
     suppliers?: SupplierChartData[],
+    test?: any
 }
 
 export default function Dashboard({
@@ -63,7 +61,9 @@ export default function Dashboard({
     counts = dummyInvoiceCounts,
     revenue = dummyRevenueLoss,
     suppliers = dummySupplierChartData,
+    test,
 } : DashboardProps) {
+    console.log(test)
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />
@@ -118,6 +118,8 @@ function InvoiceCountsCard({counts} : {counts : InvoiceCounts}) {
 }
 
 function RevenueCard({revenueIncrease, totalRevenue} : {revenueIncrease: number, totalRevenue: number}) {
+    const p = revenueIncrease / (totalRevenue - revenueIncrease) * 100
+
     return(
         <Card className='md:col-span-2'>
             <CardHeader>
@@ -135,7 +137,7 @@ function RevenueCard({revenueIncrease, totalRevenue} : {revenueIncrease: number,
                         <ArrowBigUp className='text-green-500'/>
                         <div>
                             <p className='text-xl md:text-2xl text-green-500'>Rp {revenueIncrease.toLocaleString()}</p>
-                            <p className='text-muted-foreground text-xs'>from last year</p>
+                            <p className='text-muted-foreground text-xs'>{p.toFixed(2)}% from last year</p>
                         </div>
                     </div>
                     <Separator className='my-2'/>

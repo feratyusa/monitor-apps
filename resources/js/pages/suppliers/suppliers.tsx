@@ -5,6 +5,7 @@ import { BreadcrumbItem } from "@/types";
 import { Head, Link } from "@inertiajs/react";
 import { Building2, Plus } from "lucide-react";
 import { SupplierDataTable } from "./table/data-table";
+import { SupplierItem } from "@/types/local";
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -13,8 +14,14 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export default function Suppliers() {
-    const data = dummySuppliers
+interface SuppliersProps {
+    suppliers: SupplierItem[]
+}
+
+export default function Suppliers({suppliers} : SuppliersProps) {
+    console.log(suppliers)
+
+    const data = suppliers
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>

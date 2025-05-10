@@ -20,7 +20,7 @@ interface ProductsProps {
 }
 
 export default function Products({products} : ProductsProps) {
-    const data = dummyProducts
+    const data = products
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>

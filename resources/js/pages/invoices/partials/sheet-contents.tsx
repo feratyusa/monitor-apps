@@ -18,13 +18,13 @@ export default function InvoiceSheetContents({label, invoice} : InvoiceSheetCont
             description={invoice.nomor}
             trigger={<p>{label}</p>}
             body={<InvoiceSheetBody invoice={invoice}/>}
-            footer={<InvoiceSheetFooter id={1}/>}
+            footer={<InvoiceSheetFooter id={invoice.id}/>}
         />
     )
 }
 
 function InvoiceSheetBody({invoice} : {invoice: InvoiceItem}) {
-    const finalPrice = invoice.purchase_order.price * (1 - invoice.discount);
+    const finalPrice = invoice.purchase_order.price * (100 - invoice.discount) / 100;
     const diffDays = (new Date(invoice.due_date).getTime() - new Date().getTime()) / (1000 * 3600 * 24)
     return(
         <div className="flex flex-col gap-5 px-5 overflow-auto">
@@ -41,7 +41,7 @@ function InvoiceSheetBody({invoice} : {invoice: InvoiceItem}) {
                 <InvoiceItem name="Jumlah" value={`${invoice.purchase_order.quantity} Liter`} />
             </div>
             <InvoiceItem name="Total Harga" value={`Rp ${invoice.purchase_order.price.toLocaleString()}`} />
-            <InvoiceItem name="Diskon" value={`${invoice.discount * 100}%`} />
+            <InvoiceItem name="Diskon" value={`${invoice.discount}%`} />
             <InvoiceItem name="Harga Akhir " value={`Rp ${finalPrice.toLocaleString()}`} />
             <InvoiceItem name="Status Pembayaran " value={invoice.payment_status ? "1" : "0"} payment={true} />
             <div className="flex flex-col gap-2">

@@ -1,11 +1,11 @@
 import { Button } from "@/components/ui/button";
-import { PlaceholderPattern } from "@/components/ui/placeholder-pattern";
 import AppLayout from "@/layouts/app-layout";
 import { BreadcrumbItem } from "@/types";
 import { Head, Link } from "@inertiajs/react";
 import { ListOrdered, Plus } from "lucide-react";
 import { PurchaseOrderTable } from "./table/data-table";
 import { dummyPurchaseOrders } from "@/dummy/dummy_data";
+import { PurchaseOrderItem, SelectOptionAttribute } from "@/types/local";
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -14,8 +14,13 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export default function PurchaseOrders() {
-    const data = dummyPurchaseOrders
+interface PurchaseOrdersIndexProps {
+    purchase_orders: PurchaseOrderItem[]
+    supplierOptions: SelectOptionAttribute[]
+}
+
+export default function PurchaseOrders({purchase_orders, supplierOptions} : PurchaseOrdersIndexProps) {
+    const data = purchase_orders
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -34,7 +39,7 @@ export default function PurchaseOrders() {
                         Tambah Purchase Order
                     </Button>
                 </Link>
-                <PurchaseOrderTable data={data}/>
+                <PurchaseOrderTable data={data} supplierOptions={supplierOptions}/>
             </div>
         </AppLayout>
     );

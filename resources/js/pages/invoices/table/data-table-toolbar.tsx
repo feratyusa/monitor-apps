@@ -5,13 +5,18 @@ import { Input } from "@/components/ui/input"
 import { Table } from "@tanstack/react-table"
 import { X } from "lucide-react"
 import { kolekOptions, paymentStatusOptions } from "./filter-options"
+import { SelectOptionAttribute } from "@/types/local"
 
 interface DataTableToolbarProps<TData> {
-    table: Table<TData>
+    table: Table<TData>,
+    kolSelection: SelectOptionAttribute[]
+    paidmentSelection: SelectOptionAttribute[]
 }
 
   export function DataTableToolbar<TData>({
     table,
+    kolSelection,
+    paidmentSelection
   }: DataTableToolbarProps<TData>) {
     const isFiltered = table.getState().columnFilters.length > 0
 
@@ -31,7 +36,7 @@ interface DataTableToolbarProps<TData> {
                 <DataTableFacetedFilter
                 column={table.getColumn("status")}
                 title="Status"
-                options={paymentStatusOptions}
+                options={paidmentSelection}
                 />
             )}
             {table.getColumn("kolekbilitas") && (

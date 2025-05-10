@@ -18,7 +18,7 @@ export default function POSheetContent({label, purchase_order} : POSheetContentP
             description={purchase_order.nomor}
             trigger={<p>{label}</p>}
             body={<POSheetBody purchase_order={purchase_order}/>}
-            footer={<POSheetFooter id={1}/>}
+            footer={<POSheetFooter id={purchase_order.id}/>}
         />
     )
 }

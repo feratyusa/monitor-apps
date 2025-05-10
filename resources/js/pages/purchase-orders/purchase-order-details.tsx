@@ -6,17 +6,24 @@ import { Separator } from "@/components/ui/separator";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { dummyInvoices, dummyPurchaseOrders } from "@/dummy/dummy_data";
 import AppLayout from "@/layouts/app-layout";
-import { toIndonesiaDate } from "@/lib/utils";
 import { BreadcrumbItem } from "@/types";
 import { ProductItem, PurchaseOrderItem, SupplierItem, type InvoiceItem } from "@/types/local";
-import { Head, Link } from "@inertiajs/react";
+import { Head, Link, useForm } from "@inertiajs/react";
 import { Building2, CogIcon, Trash } from "lucide-react";
 import { useState } from "react";
 import { DialogConfirmDelete } from "@/components/dialog-confirm-delete";
 import SupplierDetailInfo from "@/components/supplier-detail-info";
 import PaymentStatusBadge from "@/components/paymentstatus-badge";
 
-export default function PurchaseOrderDetails({purchase_order = dummyPurchaseOrders[0]} : {purchase_order: PurchaseOrderItem}) {
+interface PurchaseOrderDetailsProps {
+    purchase_order: PurchaseOrderItem,
+    invoices: InvoiceItem[]
+}
+
+export default function PurchaseOrderDetails({
+    purchase_order = dummyPurchaseOrders[0],
+    invoices = []
+} : PurchaseOrderDetailsProps) {
 
     const breadcrumbs: BreadcrumbItem[] = [
         {
@@ -42,6 +49,7 @@ export default function PurchaseOrderDetails({purchase_order = dummyPurchaseOrde
                             purchase_order={purchase_order}
                             supplier={purchase_order.supplier}
                             product={purchase_order.product}
+                            invoices={invoices}
                         />
                     </CardContent>
                 </Card>
@@ -54,9 +62,10 @@ interface POCardContentProps {
     purchase_order: PurchaseOrderItem,
     supplier: SupplierItem,
     product: ProductItem,
+    invoices: InvoiceItem[]
 }
 
-function POCardContent({purchase_order, supplier, product} : POCardContentProps) {
+function POCardContent({purchase_order, supplier, product, invoices} : POCardContentProps) {
     return(
         <>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-0 overflow-auto">
@@ -74,7 +83,7 @@ function POCardContent({purchase_order, supplier, product} : POCardContentProps)
             <Separator className="my-4"/>
             <div className="grid gap-2">
                 <p className="font-black text-xl">Riwayat Invoice</p>
-                <POInvoiceHistory invoices={dummyInvoices.filter(i => i.purchase_order.nomor == purchase_order.nomor)}/>
+                <POInvoiceHistory invoices={invoices}/>
             </div>
         </>
     )
@@ -155,6 +164,7 @@ function PORecapTable({total_amount} : PORecapTableProps) {
 }
 
 function POActionButtons({purchase_order} : {purchase_order: PurchaseOrderItem}) {
+    const {delete: destroy} = useForm()
     const [openDialog, setDialogOpen] = useState<boolean | undefined>(false)
 
     function handleDialogOpen() {
@@ -163,6 +173,11 @@ function POActionButtons({purchase_order} : {purchase_order: PurchaseOrderItem})
 
     function handleDelete() {
         console.log(purchase_order)
+        destroy(route('purchase-orders.destroy', [purchase_order.id]), {
+            onSuccess: () => {
+                setDialogOpen(false)
+            }
+        })
     }
 
     function handleDialogClose() {
@@ -171,7 +186,7 @@ function POActionButtons({purchase_order} : {purchase_order: PurchaseOrderItem})
 
     return(
         <div className="flex gap-2">
-            <Link href={route('purchase-orders.edit', [1])}>
+            <Link href={route('purchase-orders.edit', [purchase_order.id])}>
                 <Button>
                     <CogIcon />
                     Edit
@@ -210,7 +225,7 @@ function POInvoiceHistory({invoices} : POInvoiceHistoryProps) {
                 { invoices.length > 0 ?
                     invoices.map((invoice, index) => (
                         <TableRow>
-                            <TableCell>{index}</TableCell>
+                            <TableCell>{index + 1}</TableCell>
                             <TableCell>{invoice.nomor}</TableCell>
                             <TableCell>{invoice.invoice_date}</TableCell>
                             <TableCell>

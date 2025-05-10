@@ -18,7 +18,7 @@ export default function SupplierSheetContent({label, supplier} : SupplierSheetCo
             description={''}
             trigger={<p>{label}</p>}
             body={<SupplierSheetBody supplier={supplier}/>}
-            footer={<SupplierSheetFooter id={1}/>}
+            footer={<SupplierSheetFooter id={supplier.id}/>}
         />
     )
 }

@@ -5,6 +5,7 @@ import { InvoicesDataTable } from "./table/data-table";
 import { dummyInvoices } from "@/dummy/dummy_data";
 import { Button } from "@/components/ui/button";
 import { Plus, Receipt } from "lucide-react";
+import { InvoiceItem, SelectOptionAttribute } from "@/types/local";
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -13,8 +14,14 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export default function Invoices() {
-    const data = dummyInvoices
+interface InvoicesProps {
+    invoices: InvoiceItem[]
+    kolSelection: SelectOptionAttribute[]
+    paidmentSelection: SelectOptionAttribute[]
+}
+
+export default function Invoices({invoices, kolSelection, paidmentSelection} : InvoicesProps) {
+    const data = invoices
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -33,7 +40,7 @@ export default function Invoices() {
                         Tambah Invoice
                     </Button>
                 </Link>
-                <InvoicesDataTable data={data}/>
+                <InvoicesDataTable data={data} kolSelection={kolSelection} paidmentSelection={paidmentSelection}/>
             </div>
         </AppLayout>
     );

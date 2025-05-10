@@ -4,21 +4,25 @@ import React, { useState } from "react"
 import { DataTableToolbar } from "./data-table-toolbar"
 import { DataTablePagination } from "@/components/data-table-pagination"
 import { DataTableColumnHeader } from "@/components/data-table-column-header"
-import { PurchaseOrderItem } from "@/types/local"
+import { PurchaseOrderItem, SelectOptionAttribute } from "@/types/local"
 import { Ellipsis } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Link } from "@inertiajs/react"
+import { Link, useForm } from "@inertiajs/react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { DialogConfirmDelete } from "@/components/dialog-confirm-delete"
 import POSheetContent from "../partials/sheet-contents"
 
 interface DataTableProps {
     data: PurchaseOrderItem[]
+    supplierOptions: SelectOptionAttribute[]
   }
 
 export function PurchaseOrderTable({
     data,
+    supplierOptions,
   }: DataTableProps)  {
+
+    const {delete: destroy} = useForm()
 
     const [dialogOpen, setDialogOpen] = useState<boolean | undefined>(false)
     const [selectedRow, setSelectedRow] = useState<PurchaseOrderItem | null>(null)
@@ -35,6 +39,12 @@ export function PurchaseOrderTable({
 
     function handleDelete() {
         console.log(selectedRow)
+        destroy(route('purchase-orders.destroy', [selectedRow?.id]), {
+            onSuccess: () => {
+                setDialogOpen(false)
+                setSelectedRow(null)
+            }
+        })
     }
 
     const columns: ColumnDef<PurchaseOrderItem>[] = [
@@ -113,7 +123,7 @@ export function PurchaseOrderTable({
 
     return(
         <div className="space-y-4">
-            <DataTableToolbar table={table} />
+            <DataTableToolbar table={table} options={supplierOptions}/>
             <div className="rounded-md border">
                 <Table>
                     <TableHeader>
@@ -184,12 +194,12 @@ function POActionsRow({purchase_order, handleDialogOpen} : POActionRowProps) {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                     <DropdownMenuGroup>
-                        <Link href={route('purchase-orders.detail', [1])}>
+                        <Link href={route('purchase-orders.detail', [purchase_order.id])}>
                             <DropdownMenuItem>
                                 Lihat
                             </DropdownMenuItem>
                         </Link>
-                        <Link href={route('purchase-orders.edit', [1])}>
+                        <Link href={route('purchase-orders.edit', [purchase_order.id])}>
                             <DropdownMenuItem>
                                 Edit
                             </DropdownMenuItem>

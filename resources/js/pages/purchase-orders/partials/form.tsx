@@ -1,6 +1,6 @@
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
 import { dummyProducts, dummyPurchaseOrders } from "@/dummy/dummy_data"
-import { ProductItem, PurchaseOrderItem } from "@/types/local"
+import { ProductItem, PurchaseOrderItem, SelectOptionAttribute } from "@/types/local"
 import { useForm } from "@inertiajs/react"
 import { Receipt } from "lucide-react"
 import { FormEventHandler, useState, useEffect } from "react"
@@ -8,10 +8,12 @@ import { Label } from "@/components/ui/label"
 import Select from "react-select"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { productOptions, supplierOptions } from "../table/po-filter-options"
 
 interface POFormProps {
     purchase_order?: PurchaseOrderItem | null,
+    supplierOptions: SelectOptionAttribute[],
+    productOptions: SelectOptionAttribute[],
+    products: ProductItem[],
 }
 
 type POFormFields =  {
@@ -22,7 +24,12 @@ type POFormFields =  {
     quantity: number
 }
 
-export default function POFormComps({purchase_order} : POFormProps) {
+export default function POFormComps({
+    purchase_order,
+    supplierOptions = [],
+    productOptions = [],
+    products = [],
+} : POFormProps) {
     const {data, setData, post, put, processing, reset, errors} = useForm<Required<POFormFields>>({
         nomor: purchase_order?.nomor,
         supplier_id: purchase_order?.supplier.id,
@@ -33,20 +40,24 @@ export default function POFormComps({purchase_order} : POFormProps) {
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault()
-        console.log(data)
+
+        if(purchase_order == null){
+            post(route('purchase-orders.store'))
+        }
+        else put(route('purchase-orders.update', [purchase_order.id]))
     }
 
     const [totalAmount, setTotalAmount] = useState<number>(0)
 
-    const [product, setProduct] = useState<ProductItem | null>(null)
+    const [selectedProduct, setSelectedProduct] = useState<ProductItem | null>(null)
 
     useEffect(() => {
-        setProduct(dummyProducts.find(p => p.id === data.product_id) ?? null)
+        setSelectedProduct(products.find(p => p.id === data.product_id) ?? null)
     }, [data.product_id])
 
     useEffect(() => {
-        setTotalAmount((product?.price_per_unit ?? 0) * data.quantity)
-    }, [product, data.quantity])
+        setTotalAmount((selectedProduct?.price_per_unit ?? 0) * data.quantity)
+    }, [selectedProduct, data.quantity])
 
     return(
         <Card className="shadow-xl w-full max-w-4xl">
@@ -75,9 +86,9 @@ export default function POFormComps({purchase_order} : POFormProps) {
                             id="supplier"
                             name="supplier"
                             placeholder="Supplier"
-                            value={supplierOptions.find(po => po.value == data.supplier_id)}
+                            value={supplierOptions.find(po => Number(po.value) == data.supplier_id)}
                             options={supplierOptions}
-                            onChange={(e) => setData('supplier_id', e?.value)}
+                            onChange={(e) => setData('supplier_id', Number(e?.value))}
                             className="text-black"
                         />
                     </div>
@@ -87,9 +98,9 @@ export default function POFormComps({purchase_order} : POFormProps) {
                             id="product"
                             name="product"
                             placeholder="Product"
-                            value={productOptions.find(po => po.value == data.product_id)}
+                            value={productOptions.find(po => Number(po.value) == data.product_id)}
                             options={productOptions}
-                            onChange={(e) => setData('product_id', e?.value)}
+                            onChange={(e) => setData('product_id', Number(e?.value))}
                             className="text-black"
                         />
                     </div>

@@ -23,12 +23,12 @@ class DummySeeder extends Seeder
             'price_per_unit' => 13500
         ]);
         $products[] = Product::create([
-            'name' => 'BIOSOLAR 60',
-            'price_per_unit' => 13500
+            'name' => 'BIOSOLAR 70',
+            'price_per_unit' => 14000
         ]);
         $products[] = Product::create([
-            'name' => 'BIOSOLAR 60',
-            'price_per_unit' => 13500
+            'name' => 'BIOSOLAR 80',
+            'price_per_unit' => 17300
         ]);
 
         // Supplier
@@ -57,7 +57,7 @@ class DummySeeder extends Seeder
 
                 $n = str_pad($key + $i + 1, 4, '0', STR_PAD_LEFT);
 
-                $date = fake()->dateTimeBetween('-8 months', '-2 weeks')->format('Y-m-d');
+                $date = fake()->dateTimeBetween('-1 year', '-2 weeks')->format('Y-m-d');
                 $year = explode("-", $date)[2];
 
                 $p = $products[fake()->numberBetween(0, count($products) - 1)];
@@ -77,28 +77,32 @@ class DummySeeder extends Seeder
 
         // Invoices
         foreach($suppliers as $key => $value) {
-            $p = PurchaseOrder::where('supplier_id', $value->id)->orderByDesc('purchase_date')->first();
+            $ps = PurchaseOrder::where('supplier_id', $value->id)->orderBy('purchase_date')->get();
 
-            $n = str_pad($key+1, 4, '0', STR_PAD_LEFT);
+            foreach($ps as $i => $p) {
+                $n = str_pad($i+1, 4, '0', STR_PAD_LEFT);
 
-            $f = fake()->numberBetween(1, 2);
-            $invoice_date = date('Y-m-d', strtotime("+{$f} weeks", strtotime($p->purchase_date)));
+                $f = fake()->numberBetween(1, 2);
+                $invoice_date = date('Y-m-d', strtotime("+{$f} weeks", strtotime($p->purchase_date)));
 
-            $d = fake()->numberBetween(3, 6);
-            $due_date = date('Y-m-d', strtotime("+{$d} months", strtotime($invoice_date)));
+                $d = fake()->numberBetween(3, 6);
+                $due_date = date('Y-m-d', strtotime("+{$d} months", strtotime($invoice_date)));
 
-            $discount = fake()->numberBetween(0, 20);
+                $discount = fake()->numberBetween(0, 20);
 
-            Invoice::create([
-                'purchase_order_id' => $p->id,
-                'nomor' => "INV/{$n}/2025",
-                'invoice_date' => $invoice_date,
-                'discount' => fake()->numberBetween(0, 25),
-                'total_amount' => $p->price * (1 - $discount/100),
-                'due_date' => $due_date,
-                'payment_status' => fake()->numberBetween(0, 1) == 1 ? true : false,
-                'bank' => "Bank Jatim",
-            ]);
+                Invoice::create([
+                    'purchase_order_id' => $p->id,
+                    'nomor' => "INV/{$n}/2025",
+                    'invoice_date' => $invoice_date,
+                    'discount' => fake()->numberBetween(0, 25),
+                    'total_amount' => $p->price * (1 - $discount/100),
+                    'due_date' => $due_date,
+                    'payment_status' => $i == $ps->count() - 1 ? false : true,
+                    'bank' => "Bank Jatim",
+                ]);
+
+            }
+
         }
     }
 }

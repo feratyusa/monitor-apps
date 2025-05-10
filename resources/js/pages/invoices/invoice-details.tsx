@@ -11,7 +11,7 @@ import AppLayout from "@/layouts/app-layout";
 import { toIndonesiaDate } from "@/lib/utils";
 import { BreadcrumbItem } from "@/types";
 import { ProductItem, PurchaseOrderItem, SupplierItem, type InvoiceItem } from "@/types/local";
-import { Head, Link } from "@inertiajs/react";
+import { Head, Link, useForm } from "@inertiajs/react";
 import { Building2, CogIcon, Trash } from "lucide-react";
 import { useState } from "react";
 import { DialogConfirmDelete } from "@/components/dialog-confirm-delete";
@@ -199,11 +199,11 @@ function InvoiceRecapTable({discount, total_amount} : InvoiceRecapTableProps) {
                     </TableRow>
                     <TableRow>
                         <TableCell>Discount</TableCell>
-                        <TableCell>{discount * 100}%</TableCell>
+                        <TableCell>{discount}%</TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell className="bg-gray-500/10 font-black">Total Harga Akhir</TableCell>
-                        <TableCell>Rp {(total_amount * (1 - discount)).toLocaleString()}</TableCell>
+                        <TableCell>Rp {(total_amount * (100 - discount) / 100).toLocaleString()}</TableCell>
                     </TableRow>
                 </TableBody>
             </Table>
@@ -212,23 +212,28 @@ function InvoiceRecapTable({discount, total_amount} : InvoiceRecapTableProps) {
 }
 
 function InvoiceActionButtons({invoice} : {invoice: InvoiceItem}) {
+    const {delete: destroy} = useForm()
+
     const [openDialog, setDialogOpen] = useState<boolean | undefined>(false)
 
     function handleDialogOpen() {
         setDialogOpen(true)
     }
 
-    function handleDelete() {
-        console.log(invoice)
-    }
-
     function handleDialogClose() {
         setDialogOpen(false)
     }
 
+    function handleDelete() {
+        console.log(invoice)
+        destroy(route('invoices.destroy', [invoice.id]), {
+            onSuccess: handleDialogClose
+        })
+    }
+
     return(
         <div className="flex gap-2">
-            <Link href={route('invoices.edit', [1])}>
+            <Link href={route('invoices.edit', [invoice.id])}>
                 <Button>
                     <CogIcon />
                     Edit

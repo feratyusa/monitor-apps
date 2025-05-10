@@ -31,7 +31,7 @@ const chartConfig = {
 export default function DashboardReceivableChart({invoices} : DashboardRevenueChartProps) {
     return(
         <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
-            <BarChart accessibilityLayer data={invoices} margin={{left: 8, right: 8, top: 8}} width={300}>
+            <BarChart accessibilityLayer data={invoices} margin={{left: 0, right: 8, top: 8}} width={300}>
                 <CartesianGrid vertical={false}/>
                 <XAxis
                     dataKey={"year"}
@@ -39,7 +39,7 @@ export default function DashboardReceivableChart({invoices} : DashboardRevenueCh
                 />
                 <YAxis
                     tickMargin={8}
-                    tickFormatter={(value) => "Rp " + (value / 1000000).toLocaleString() + " JT"}
+                    tickFormatter={(value) => (value / 1000000).toLocaleString() + " JT"}
                 />
                 <ChartTooltip
                     cursor={false}
@@ -69,9 +69,9 @@ export default function DashboardReceivableChart({invoices} : DashboardRevenueCh
                         />
                     }
                 />
-                <Bar dataKey={"paid"} fill="var(--color-paid)" stroke="var(--color-paid)" type={"natural"}/>
-                <Bar dataKey={"unpaid"} fill="var(--color-unpaid)" stroke="var(--color-unpaid)" type={"natural"}/>
-                <Bar dataKey={"overdue"} fill="var(--color-overdue)" stroke="var(--color-overdue)" type={"natural"}/>
+                <Bar dataKey={"paid"} fill="var(--color-paid)" stroke="var(--color-paid)" radius={[4,4,0,0]}/>
+                <Bar dataKey={"unpaid"} fill="var(--color-unpaid)" stroke="var(--color-unpaid)" stackId={"b"}/>
+                <Bar dataKey={"overdue"} fill="var(--color-overdue)" stroke="var(--color-overdue)" radius={[4,4,0,0]} stackId={"b"}/>
                 <ChartLegend
                     content={<ChartLegendContent />}
                     className="-translate-y-2 flex-wrap gap-2 [&>*]:basis-1/4 [&>*]:justify-center"

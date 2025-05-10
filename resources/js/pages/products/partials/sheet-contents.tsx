@@ -43,8 +43,8 @@ function ProductRowItem({name, value} : {name: string, value: string}) {
 
 function ProductSheetFooter({id} : {id: number}) {
     return(
-        <Link href={route('products.detail', [id])}>
+        // <Link href={route('products.detail', [id])}>
             <Button className="w-full">Lebih Lengkap</Button>
-        </Link>
+        // </Link>
     )
 }

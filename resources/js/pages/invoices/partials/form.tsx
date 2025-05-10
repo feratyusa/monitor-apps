@@ -1,39 +1,46 @@
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
-import { dummyPurchaseOrders } from "@/dummy/dummy_data"
-import { InvoiceItem, PurchaseOrderItem } from "@/types/local"
+import { InvoiceItem, PurchaseOrderItem, SelectOptionAttribute } from "@/types/local"
 import { useForm } from "@inertiajs/react"
 import { Receipt } from "lucide-react"
 import { FormEventHandler, useState, useEffect } from "react"
-import { purchaseOrderOptions } from "../table/filter-options"
 import { Label } from "@/components/ui/label"
-import Select from "react-select"
+import ReactSelect from "react-select"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 interface InvoiceFormProps {
     invoice?: InvoiceItem | null,
+    purchase_orders: PurchaseOrderItem[]
+    purchase_order_options: SelectOptionAttribute[]
 }
 
 type InvoiceFormFields =  {
+    nomor: string
     purchase_order_id: string | undefined
     invoice_date: string
     due_date: string
     discount: number
-    bank: string
+    bank: string,
+    payment_status: boolean,
 }
 
-export default function InvoiceFormComps({invoice} : InvoiceFormProps) {
+export default function InvoiceFormComps({invoice, purchase_orders, purchase_order_options} : InvoiceFormProps) {
     const {data, setData, post, put, processing, reset, errors} = useForm<Required<InvoiceFormFields>>({
-        purchase_order_id: invoice ? invoice.purchase_order.nomor : undefined,
+        nomor: invoice ? invoice.nomor : '',
+        purchase_order_id: invoice ? invoice.purchase_order.id.toLocaleString() : undefined,
         invoice_date: invoice ? invoice.invoice_date : '',
         due_date: invoice ? invoice.due_date : '',
         discount: invoice?.discount ?? 0,
         bank: invoice ? invoice.bank : '',
+        payment_status: invoice ? invoice.payment_status : false,
     })
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault()
         console.log(data)
+        if(invoice == null) post(route('invoices.store'))
+        else put(route('invoices.update', [invoice.id]))
     }
 
     const [po, setPo] = useState<PurchaseOrderItem | null>(null)
@@ -45,7 +52,7 @@ export default function InvoiceFormComps({invoice} : InvoiceFormProps) {
     }, [po, data.discount])
 
     useEffect(() => {
-        setPo(dummyPurchaseOrders.find(po => po.nomor == data.purchase_order_id) ?? null)
+        setPo(purchase_orders.find(po => po.id == Number(data.purchase_order_id)) ?? null)
     }, [data.purchase_order_id])
 
     return(
@@ -59,14 +66,23 @@ export default function InvoiceFormComps({invoice} : InvoiceFormProps) {
             </CardHeader>
             <CardContent>
                 <form className="flex flex-col gap-6 p-4" onSubmit={submit}>
+                <div className="grid gap-2">
+                        <Label htmlFor="nomor">Nomor Invoice *</Label>
+                        <Input
+                            id="nomor"
+                            name="nomor"
+                            value={data.nomor}
+                            onChange={(e) => setData('nomor', e.target.value)}
+                        />
+                    </div>
                     <div className="grid gap-2">
                         <Label htmlFor="po">Purchase Order *</Label>
-                        <Select
+                        <ReactSelect
                             id="po"
                             name="purchase-order"
                             placeholder="Purchase Order"
-                            value={purchaseOrderOptions.find(po => po.value == data['purchase_order_id'])}
-                            options={purchaseOrderOptions}
+                            value={purchase_order_options.find(po => po.value == data.purchase_order_id)}
+                            options={purchase_order_options}
                             onChange={(e) => setData('purchase_order_id', e?.value)}
                             className="text-black"
                         />
@@ -153,14 +169,29 @@ export default function InvoiceFormComps({invoice} : InvoiceFormProps) {
                         </div>
                     </div>
                     <div className="grid gap-2">
-                            <Label htmlFor="bank">Bank *</Label>
-                            <Input
-                                id="bank"
-                                name="bank"
-                                value={data.bank}
-                                onChange={(e) => setData('bank', e.target.value)}
-                            />
-                        </div>
+                        <Label htmlFor="bank">Bank *</Label>
+                        <Input
+                            id="bank"
+                            name="bank"
+                            value={data.bank}
+                            onChange={(e) => setData('bank', e.target.value)}
+                        />
+                    </div>
+                    <div>
+                        <Label htmlFor="status">Status Pembayaran</Label>
+                        <Select onValueChange={(e) => setData('payment_status', e === "1")} defaultValue={data.payment_status ? "1" : "0"}>
+                            <SelectTrigger className="w-full">
+                                <SelectValue placeholder="Status Pembayaran" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectGroup>
+                                    <SelectLabel>Status Pembayaran</SelectLabel>
+                                    <SelectItem value={"1"}>Terbayar</SelectItem>
+                                    <SelectItem value={"0"}>Belum Terbayar</SelectItem>
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
+                    </div>
                     <div className="flex justify-center">
                         <div className="grid grid-cols-2 gap-5 w-full max-w-lg">
                             <Button type="submit">

@@ -16,6 +16,7 @@ export interface ProductItem {
 }
 
 export interface PurchaseOrderItem {
+    id: number
     nomor: string,
     supplier: SupplierItem,
     product: ProductItem,
@@ -25,6 +26,7 @@ export interface PurchaseOrderItem {
 }
 
 export interface InvoiceItem {
+    id: number
     nomor: string,
     invoice_date: string,
     due_date: string,
@@ -33,4 +35,9 @@ export interface InvoiceItem {
     payment_status: boolean
     purchase_order: PurchaseOrderItem,
     bank: string,
+}
+
+export interface SelectOptionAttribute {
+    value: string
+    label: string
 }

@@ -2,16 +2,18 @@ import { DataTableFacetedFilter } from "@/components/data-table-faceted-filter"
 import { DataTableViewOptions } from "@/components/data-table-view-options"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { SelectOptionAttribute } from "@/types/local"
 import { Table } from "@tanstack/react-table"
 import { X } from "lucide-react"
-import { supplierOptions } from "./po-filter-options"
 
 interface DataTableToolbarProps<TData> {
     table: Table<TData>
+    options: SelectOptionAttribute[]
 }
 
   export function DataTableToolbar<TData>({
     table,
+    options
   }: DataTableToolbarProps<TData>) {
     const isFiltered = table.getState().columnFilters.length > 0
 
@@ -31,7 +33,7 @@ interface DataTableToolbarProps<TData> {
                 <DataTableFacetedFilter
                     column={table.getColumn("supplier")}
                     title="Supplier"
-                    options={supplierOptions}
+                    options={options}
                 />
             )}
             {isFiltered && (
