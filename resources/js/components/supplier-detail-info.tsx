@@ -10,7 +10,7 @@ export default function SupplierDetailInfo({supplier} : SupplierDetailInfoProps)
         <div className="flex flex-col gap-2">
             <div className="flex gap-2">
                 <Building2 />
-                <p className="text-xl font-black">Supplier</p>
+                <p className="text-xl font-black">Customer</p>
             </div>
             <p>{supplier.name}</p>
             <p>{supplier.address}</p>

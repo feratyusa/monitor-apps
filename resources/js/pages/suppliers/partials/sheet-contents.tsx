@@ -14,7 +14,7 @@ interface SupplierSheetContentProps {
 export default function SupplierSheetContent({label, supplier} : SupplierSheetContentProps) {
     return (
         <SheetDetailOnTableRow
-            title="Detail Supplier"
+            title="Detail Customer"
             description={''}
             trigger={<p>{label}</p>}
             body={<SupplierSheetBody supplier={supplier}/>}
@@ -26,7 +26,7 @@ export default function SupplierSheetContent({label, supplier} : SupplierSheetCo
 function SupplierSheetBody({supplier} : {supplier: SupplierItem}) {
     return(
         <div className="flex flex-col gap-5 px-5 overflow-auto">
-            <SupplierRowItem value={supplier.name} name="Supplier"/>
+            <SupplierRowItem value={supplier.name} name="Customer"/>
             <SupplierRowItem value={supplier.address} name="Alamat"/>
             <SupplierRowItem value={supplier.email} name="Email"/>
             <SupplierRowItem value={supplier.contact_person} name="Contact Person"/>

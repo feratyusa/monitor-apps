@@ -81,7 +81,7 @@ export function InvoicesDataTable({
             accessorKey: 'purchase_order.supplier.name',
             id: 'supplier',
             header: ({ column }) => (
-                <DataTableColumnHeader column={column} title="Supplier" />
+                <DataTableColumnHeader column={column} title="Customer" />
             ),
             cell: ({row}) => <InvoiceSheetContents label={row.original.purchase_order.supplier.name} invoice={row.original}/>
         },

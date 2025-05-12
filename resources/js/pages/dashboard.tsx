@@ -156,7 +156,7 @@ function SupplierCollectbilityRecapCard({suppliers} : {suppliers : SupplierChart
         <Card className='md:col-span-2'>
             <CardHeader>
                 <CardTitle className='flex justify-between'>
-                    <p>Kolekbilitas Supplier</p>
+                    <p>Kolekbilitas Customer</p>
                     <Building2 />
                 </CardTitle>
                 <CardDescription>Status Kolekbilitas</CardDescription>

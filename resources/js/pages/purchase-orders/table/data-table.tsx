@@ -60,7 +60,7 @@ export function PurchaseOrderTable({
             accessorKey: 'supplier.name',
             id: 'supplier',
             header: ({ column }) => (
-                <DataTableColumnHeader column={column} title="Supplier" />
+                <DataTableColumnHeader column={column} title="Customer" />
             ),
             cell: ({row}) => <POSheetContent label={row.original.supplier.name} purchase_order={row.original}/>,
             filterFn: (row, id, value) => {

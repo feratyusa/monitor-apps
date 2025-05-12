@@ -28,10 +28,10 @@ function InvoiceSheetBody({invoice} : {invoice: InvoiceItem}) {
     const diffDays = (new Date(invoice.due_date).getTime() - new Date().getTime()) / (1000 * 3600 * 24)
     return(
         <div className="flex flex-col gap-5 px-5 overflow-auto">
-            <InvoiceItem name="Supplier" value={invoice.purchase_order.supplier.name} />
-            <InvoiceItem name="Alamat Supplier" value={invoice.purchase_order.supplier.address} />
-            <InvoiceItem name="CP Supplier" value={invoice.purchase_order.supplier.contact_person} />
-            <InvoiceItem name="Phone Supplier" value={invoice.purchase_order.supplier.phone1} />
+            <InvoiceItem name="Customer" value={invoice.purchase_order.supplier.name} />
+            <InvoiceItem name="Alamat Customer" value={invoice.purchase_order.supplier.address} />
+            <InvoiceItem name="CP Customer" value={invoice.purchase_order.supplier.contact_person} />
+            <InvoiceItem name="Phone Customer" value={invoice.purchase_order.supplier.phone1} />
             <div className="grid grid-cols-2">
                 <InvoiceItem name="Tanggal Invoice" value={invoice.invoice_date} />
                 <InvoiceItem name="Jatuh Tempo" value={invoice.due_date} />

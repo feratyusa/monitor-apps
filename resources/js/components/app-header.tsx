@@ -32,7 +32,7 @@ const mainNavItems: NavItem[] = [
         icon: ListOrdered,
     },
     {
-        title: 'Suppliers',
+        title: 'Customer',
         href: '/suppliers',
         icon: Building2,
     },

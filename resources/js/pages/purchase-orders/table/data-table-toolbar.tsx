@@ -32,7 +32,7 @@ interface DataTableToolbarProps<TData> {
             {table.getColumn("supplier") && (
                 <DataTableFacetedFilter
                     column={table.getColumn("supplier")}
-                    title="Supplier"
+                    title="Customer"
                     options={options}
                 />
             )}

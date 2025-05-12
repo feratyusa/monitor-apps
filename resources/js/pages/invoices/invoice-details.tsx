@@ -109,7 +109,7 @@ function InvoiceSupplierInfo({name, address, phone1, email, contact_person, phon
         <div className="flex flex-col gap-2">
             <div className="flex gap-2">
                 <Building2 />
-                <p className="text-xl font-black">Supplier</p>
+                <p className="text-xl font-black">Customer</p>
             </div>
             <p>{name}</p>
             <p>{address}</p>

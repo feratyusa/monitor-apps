@@ -3,8 +3,7 @@ import PaymentStatusBadge from "@/components/paymentstatus-badge";
 import SheetDetailOnTableRow from "@/components/sheet-detail-content";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { ProductItem, SupplierItem } from "@/types/local";
-import { Link } from "@inertiajs/react";
+import { ProductItem } from "@/types/local";
 
 interface ProductSheetContentProps {
     label: string,
@@ -14,7 +13,7 @@ interface ProductSheetContentProps {
 export default function ProductSheetContent({label, product} : ProductSheetContentProps) {
     return (
         <SheetDetailOnTableRow
-            title="Detail Supplier"
+            title="Detail Customer"
             description={''}
             trigger={<p>{label}</p>}
             body={<ProductSheetBody product={product}/>}

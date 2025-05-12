@@ -30,14 +30,14 @@ export default function Suppliers({suppliers} : SuppliersProps) {
                 <div className="grid gap-2">
                     <div className="flex items-center gap-2">
                         <Building2 />
-                        <p className="text-2xl font-extrabold">Suppliers</p>
+                        <p className="text-2xl font-extrabold">Customer</p>
                     </div>
-                    <p className="text-sm ext-muted-foreground">List supplier</p>
+                    <p className="text-sm ext-muted-foreground">List customer</p>
                 </div>
                 {/* <Link href={''}> */}
                     <Button className="w-full" variant={"outline"}>
                         <Plus />
-                        Tambah Supplier
+                        Tambah Customer
                     </Button>
                 {/* </Link> */}
                 <SupplierDataTable data={data}/>

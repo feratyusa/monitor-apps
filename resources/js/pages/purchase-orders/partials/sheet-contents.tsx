@@ -26,7 +26,7 @@ export default function POSheetContent({label, purchase_order} : POSheetContentP
 function POSheetBody({purchase_order} : {purchase_order: PurchaseOrderItem}) {
     return(
         <div className="flex flex-col gap-5 px-5 overflow-auto">
-            <POItem value={purchase_order.supplier.name} name="Supplier"/>
+            <POItem value={purchase_order.supplier.name} name="Customer"/>
             <POItem value={purchase_order.product.name} name="Product"/>
             <div className="grid grid-cols-2 gap-2">
                 <POItem value={purchase_order.quantity.toLocaleString()} name="Jumlah Unit (L)"/>
