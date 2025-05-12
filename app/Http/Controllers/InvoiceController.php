@@ -17,7 +17,7 @@ class InvoiceController extends Controller
         return Inertia::render('invoices/invoices', [
             'invoices' => Invoice::with('purchaseOrder')->get(),
             'kolSelection' => $this->generateKolSelection(),
-            'paidmentSelection' => $this->generateKolSelection()
+            'paidmentSelection' => $this->generatePaidmentSelection()
         ]);
     }
 

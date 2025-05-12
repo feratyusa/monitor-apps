@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Table } from "@tanstack/react-table"
 import { X } from "lucide-react"
-import { kolekOptions, paymentStatusOptions } from "./filter-options"
 import { SelectOptionAttribute } from "@/types/local"
 
 interface DataTableToolbarProps<TData> {
@@ -43,7 +42,7 @@ interface DataTableToolbarProps<TData> {
                 <DataTableFacetedFilter
                 column={table.getColumn("kolekbilitas")}
                 title="Kolekbilitas"
-                options={kolekOptions}
+                options={kolSelection}
                 />
             )}
             {isFiltered && (
