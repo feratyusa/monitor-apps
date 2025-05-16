@@ -6,13 +6,21 @@ import { Separator } from '@/components/ui/separator';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
-import { ArrowBigUp, ArrowDown10, Building2, ListOrdered, Wallet } from 'lucide-react';
+import { ArrowBigDown, ArrowBigUp, ArrowDown10, ArrowUp10, Building2, Equal, ListOrdered, Wallet } from 'lucide-react';
 
 const dummyIncome: ReceivableData[] = [
-    {year: "2022", paid: 35000000, unpaid: 0, overdue: 10000000},
-    {year: "2023", paid: 70000000, unpaid: 0, overdue: 25000000},
-    {year: "2024", paid: 40000000, unpaid: 0, overdue: 10000000},
-    {year: "2025", paid: 80000000, unpaid: 8000000, overdue: 30000000},
+    {year: '2024', month: "6", paid: 45000000, unpaid: 0, overdue: 25000000},
+    {year: '2024', month: "7", paid: 70000000, unpaid: 0, overdue: 86000000},
+    {year: '2024', month: "8", paid: 32000000, unpaid: 0, overdue: 50000000},
+    {year: '2024', month: "9", paid: 59000000, unpaid: 0, overdue: 78000000},
+    {year: '2024', month: "10", paid: 60000000, unpaid: 0, overdue: 67200202},
+    {year: '2024', month: "11", paid: 71000000, unpaid: 0, overdue: 8700000},
+    {year: '2024', month: "12", paid: 80000000, unpaid: 50000000, overdue: 7689000},
+    {year: '2025', month: "1", paid: 32000000, unpaid: 32200000, overdue: 50000000},
+    {year: '2025', month: "2", paid: 12000000, unpaid: 0, overdue: 20000000},
+    {year: '2025', month: "3", paid: 5000000, unpaid: 0, overdue: 23000000},
+    {year: '2025', month: "4", paid: 22000000, unpaid: 0, overdue: 23000000},
+    {year: '2025', month: "5", paid: 56000000, unpaid: 30000000, overdue: 15000000},
 ]
 
 const dummyInvoiceCounts: InvoiceCounts = {
@@ -24,8 +32,15 @@ const dummyInvoiceCounts: InvoiceCounts = {
 }
 
 const dummyRevenueLoss: RevenueData = {
-    revenueIncrease: 35000000,
+    thisMonthRevenue: 35000000,
+    lastMonthRevenue: 25000000,
     total_revenue: 1050000000,
+}
+
+const dummyLoss: LossData = {
+    thisMonthLoss: 15000000,
+    lastMonthLoss: 20000000,
+    total_loss: 750000000,
 }
 
 const dummySupplierChartData: SupplierChartData[] = [
@@ -44,14 +59,22 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 interface RevenueData {
-    revenueIncrease: number
+    thisMonthRevenue: number
+    lastMonthRevenue: number
     total_revenue: number
+}
+
+interface LossData {
+    thisMonthLoss: number
+    lastMonthLoss: number
+    total_loss: number
 }
 
 interface DashboardProps {
     receivables?: ReceivableData[]
     counts?: InvoiceCounts
     revenue?: RevenueData,
+    loss?: LossData,
     suppliers?: SupplierChartData[],
     test?: any
 }
@@ -61,6 +84,7 @@ export default function Dashboard({
     counts = dummyInvoiceCounts,
     revenue = dummyRevenueLoss,
     suppliers = dummySupplierChartData,
+    loss = dummyLoss,
     test,
 } : DashboardProps) {
     console.log(test)
@@ -72,7 +96,16 @@ export default function Dashboard({
                 <div className='grid gap-5 lg:grid-cols-4 md:grid-cols-2'>
                     <InvoiceReceivablesCard receivables={receivables}/>
                     <InvoiceCountsCard counts={counts}/>
-                    <RevenueCard revenueIncrease={revenue.revenueIncrease} totalRevenue={revenue.total_revenue}/>
+                    <RevenueCard
+                        thisMonthRevenue={revenue.thisMonthRevenue}
+                        lastMonthRevenue={revenue.lastMonthRevenue}
+                        totalRevenue={revenue.total_revenue}
+                    />
+                    <EstimateLossCard
+                        thisMonthLoss={loss.thisMonthLoss}
+                        lastMonthLoss={loss.lastMonthLoss}
+                        totalLoss={loss.total_loss}
+                    />
                     <SupplierCollectbilityRecapCard suppliers={suppliers}/>
                 </div>
             </div>
@@ -82,6 +115,11 @@ export default function Dashboard({
 }
 
 function InvoiceReceivablesCard({receivables} : {receivables : ReceivableData[]}) {
+    const first = receivables[0]
+    const last = receivables[receivables.length - 1]
+    const firstMonth = Intl.DateTimeFormat('id', { month: 'long' }).format(new Date(first.month))
+    const lastMonth = Intl.DateTimeFormat('id', { month: 'long' }).format(new Date(last.month))
+
     return(
         <Card className='md:col-span-3'>
             <CardHeader>
@@ -89,7 +127,7 @@ function InvoiceReceivablesCard({receivables} : {receivables : ReceivableData[]}
                     <p>Invoice Receivables </p>
                     <Wallet />
                 </CardTitle>
-                <CardDescription>{receivables[0].year} - {receivables[2].year}</CardDescription>
+                <CardDescription>{`${firstMonth} ${first.year} - ${lastMonth} ${last.year}`}</CardDescription>
             </CardHeader>
             <CardContent>
                 <div className='flex max-h-60'>
@@ -117,15 +155,16 @@ function InvoiceCountsCard({counts} : {counts : InvoiceCounts}) {
     )
 }
 
-function RevenueCard({revenueIncrease, totalRevenue} : {revenueIncrease: number, totalRevenue: number}) {
-    const p = revenueIncrease / (totalRevenue - revenueIncrease) * 100
+function RevenueCard({thisMonthRevenue, lastMonthRevenue, totalRevenue} : {thisMonthRevenue: number, lastMonthRevenue: number, totalRevenue: number}) {
+    const p = (thisMonthRevenue - lastMonthRevenue) / (lastMonthRevenue) * 100
+    const textColor = p < 0 ? 'text-red-500' : p > 0 ? 'text-green-500' : '';
 
     return(
-        <Card className='md:col-span-2'>
+        <Card>
             <CardHeader>
                 <CardTitle className='flex justify-between'>
                     <p>Revenue</p>
-                    <ArrowDown10 />
+                    <ArrowUp10 />
                 </CardTitle>
                 <CardDescription>
                     Earned and Total
@@ -134,16 +173,61 @@ function RevenueCard({revenueIncrease, totalRevenue} : {revenueIncrease: number,
             <CardContent>
                 <div className='grid gap-5'>
                     <div className='flex gap-5 items-center'>
-                        <ArrowBigUp className='text-green-500'/>
+                        {
+                            p > 0 ? <ArrowBigUp className={textColor}/> :
+                            p < 0 ? <ArrowBigDown className={textColor}/> :
+                            <Equal className={textColor}/>
+                        }
                         <div>
-                            <p className='text-xl md:text-2xl text-green-500'>Rp {revenueIncrease.toLocaleString()}</p>
-                            <p className='text-muted-foreground text-xs'>{p.toFixed(2)}% from last year</p>
+                            <p className='text-xl md:text-2x'>Rp {thisMonthRevenue.toLocaleString()}</p>
+                            <p className='text-muted-foreground text-xs'>{p.toFixed(2)}% from last month</p>
                         </div>
                     </div>
                     <Separator className='my-2'/>
                     <div className='grid gap-5 overflow-auto'>
                         <p>Total Revenue</p>
                         <p className='text-xl md:text-2xl font-black'>{`Rp ${totalRevenue.toLocaleString()}`}</p>
+                    </div>
+                </div>
+            </CardContent>
+        </Card>
+    )
+}
+
+function EstimateLossCard({thisMonthLoss, lastMonthLoss, totalLoss} :
+    {thisMonthLoss: number, lastMonthLoss: number, totalLoss: number}
+) {
+    const p = (thisMonthLoss - lastMonthLoss) / (lastMonthLoss) * 100
+    const textColor = p > 0 ? 'text-red-500' : p < 0 ? 'text-green-500' : '';
+
+    return(
+        <Card>
+            <CardHeader>
+                <CardTitle className='flex justify-between'>
+                    <p>Estimated Loss</p>
+                    <ArrowDown10 />
+                </CardTitle>
+                <CardDescription>
+                    Unpaid and Overdue
+                </CardDescription>
+            </CardHeader>
+            <CardContent>
+                <div className='grid gap-5'>
+                    <div className='flex gap-5 items-center'>
+                        {
+                            p > 0 ? <ArrowBigUp className={textColor}/> :
+                            p < 0 ? <ArrowBigDown className={textColor}/> :
+                            <Equal className={textColor}/>
+                        }
+                        <div>
+                            <p className='text-xl md:text-2x'>Rp {thisMonthLoss.toLocaleString()}</p>
+                            <p className='text-muted-foreground text-xs'>{p.toFixed(2)}% from last month</p>
+                        </div>
+                    </div>
+                    <Separator className='my-2'/>
+                    <div className='grid gap-5 overflow-auto'>
+                        <p>Total Estimated Loss</p>
+                        <p className='text-xl md:text-2xl font-black'>{`Rp ${totalLoss.toLocaleString()}`}</p>
                     </div>
                 </div>
             </CardContent>

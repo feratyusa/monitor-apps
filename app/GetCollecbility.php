@@ -9,7 +9,7 @@ trait GetCollecbility
     public function getCollectbiityStatus(int $supplierId) {
         $invoice = Invoice::whereHas('purchaseOrder', function($query) use($supplierId) {
             $query->where('supplier_id', $supplierId);
-        })->where('payment_status', false)->orderByDesc('due_date')->first();
+        })->where('payment_status', false)->orderBy('due_date')->first();
 
         if($invoice == null) return "1";
 

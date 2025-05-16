@@ -47,10 +47,11 @@ class InvoiceController extends Controller
             'purchase_order_id' => $purchase_order->id,
             'invoice_date' => $validated['invoice_date'],
             'due_date' => $validated['due_date'],
-            'discount' => $validated['discount'],
+            'tax' => $validated['tax'],
             'bank' => $validated['bank'],
-            'total_amount' => $purchase_order->price * (100 - $validated['discount']) / 100,
+            'total_amount' => $purchase_order->price * (100 + $validated['tax']) / 100,
             'payment_status' => $validated['payment_status'],
+            'delivery_date' => $validated['delivery_date'],
         ]);
 
         return redirect()->route('invoices.detail', [$invoice->id]);
@@ -76,10 +77,11 @@ class InvoiceController extends Controller
             'purchase_order_id' => $purchase_order->id,
             'invoice_date' => $validated['invoice_date'],
             'due_date' => $validated['due_date'],
-            'discount' => $validated['discount'],
+            'tax' => $validated['tax'],
             'bank' => $validated['bank'],
-            'total_amount' => $purchase_order->price * (100 - $validated['discount']) / 100,
+            'total_amount' => $purchase_order->price * (100 - $validated['tax']) / 100,
             'payment_status' => $validated['payment_status'],
+            'delivery_date' => $validated['delivery_date'],
         ]);
 
         return redirect()->route('invoices.detail', [$id]);

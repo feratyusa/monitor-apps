@@ -3,6 +3,7 @@ import { ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartTool
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card"
 
 export interface ReceivableData {
+    month: string
     year: string
     paid: number
     unpaid: number
@@ -16,7 +17,7 @@ interface DashboardRevenueChartProps {
 const chartConfig = {
     paid: {
         label: "Paid",
-        color: "hsl(var(--chart-1))",
+        color: "#0000FF",
     },
     unpaid: {
         label: "Unpaid",
@@ -34,8 +35,9 @@ export default function DashboardReceivableChart({invoices} : DashboardRevenueCh
             <BarChart accessibilityLayer data={invoices} margin={{left: 0, right: 8, top: 8}} width={300}>
                 <CartesianGrid vertical={false}/>
                 <XAxis
-                    dataKey={"year"}
+                    dataKey={"month"}
                     tickMargin={8}
+                    tickFormatter={(value, index) => Intl.DateTimeFormat('id', { month: 'short' }).format(new Date(value))}
                 />
                 <YAxis
                     tickMargin={8}
@@ -59,7 +61,7 @@ export default function DashboardReceivableChart({invoices} : DashboardRevenueCh
                                   {chartConfig[name as keyof typeof chartConfig]?.label ||
                                    name}
                                   <div className="ml-auto flex items-baseline gap-0.5 font-mono font-medium tabular-nums text-foreground">
-                                    Rp{Number(value) / 1000000}
+                                    Rp{Number(Number(value) / 1000000).toFixed(2)}
                                      <span className="font-normal text-muted-foreground">
                                       JT
                                     </span>

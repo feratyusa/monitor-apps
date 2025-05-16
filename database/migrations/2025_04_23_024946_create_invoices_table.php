@@ -16,11 +16,12 @@ return new class extends Migration
             $table->string('nomor');
             $table->date('invoice_date');
             $table->foreignId('purchase_order_id')->constrained()->cascadeOnDelete();
-            $table->integer('discount');
+            $table->integer('tax');
             $table->integer('total_amount');
             $table->date('due_date');
             $table->boolean('payment_status');
             $table->string('bank');
+            $table->string('delivery_date');
             $table->timestamps();
         });
     }

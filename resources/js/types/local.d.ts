@@ -31,10 +31,11 @@ export interface InvoiceItem {
     invoice_date: string,
     due_date: string,
     total_amount: number,
-    discount: number,
+    tax: number,
     payment_status: boolean
     purchase_order: PurchaseOrderItem,
     bank: string,
+    delivery_date: string
 }
 
 export interface SelectOptionAttribute {

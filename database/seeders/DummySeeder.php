@@ -53,11 +53,11 @@ class DummySeeder extends Seeder
         $pos = [];
         foreach ($suppliers as $key => $value) {
             $s = explode(" ", $value->name)[2];
-            for($i = 0; $i < fake()->numberBetween(2, 3); $i++) {
+            for($i = 0; $i < fake()->numberBetween(8, 10); $i++) {
 
                 $n = str_pad($key + $i + 1, 4, '0', STR_PAD_LEFT);
 
-                $date = fake()->dateTimeBetween('-1 year', '-2 weeks')->format('Y-m-d');
+                $date = fake()->dateTimeBetween('-1 years', '-2 weeks')->format('Y-m-d');
                 $year = explode("-", $date)[2];
 
                 $p = $products[fake()->numberBetween(0, count($products) - 1)];
@@ -88,16 +88,17 @@ class DummySeeder extends Seeder
                 $d = fake()->numberBetween(3, 6);
                 $due_date = date('Y-m-d', strtotime("+{$d} months", strtotime($invoice_date)));
 
-                $discount = fake()->numberBetween(0, 20);
+                $delivery_date = date('Y-m-d', strtotime('+1 months', strtotime($invoice_date)));
 
                 Invoice::create([
                     'purchase_order_id' => $p->id,
                     'nomor' => "INV/{$n}/2025",
                     'invoice_date' => $invoice_date,
-                    'discount' => fake()->numberBetween(0, 25),
-                    'total_amount' => $p->price * (1 - $discount/100),
+                    'tax' => 11,
+                    'total_amount' => $p->price * (1 + 11/100),
                     'due_date' => $due_date,
-                    'payment_status' => $i == $ps->count() - 1 ? false : true,
+                    'delivery_date' => $delivery_date,
+                    'payment_status' => fake()->numberBetween(0, 3) == 0 ? false : true,
                     'bank' => "Bank Jatim",
                 ]);
 

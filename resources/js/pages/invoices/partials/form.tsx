@@ -20,9 +20,10 @@ type InvoiceFormFields =  {
     purchase_order_id: string | undefined
     invoice_date: string
     due_date: string
-    discount: number
+    tax: number
     bank: string,
     payment_status: boolean,
+    delivery_date: string,
 }
 
 export default function InvoiceFormComps({invoice, purchase_orders, purchase_order_options} : InvoiceFormProps) {
@@ -31,9 +32,10 @@ export default function InvoiceFormComps({invoice, purchase_orders, purchase_ord
         purchase_order_id: invoice ? invoice.purchase_order.id.toLocaleString() : undefined,
         invoice_date: invoice ? invoice.invoice_date : '',
         due_date: invoice ? invoice.due_date : '',
-        discount: invoice?.discount ?? 0,
+        tax: invoice?.tax ?? 11,
         bank: invoice ? invoice.bank : '',
         payment_status: invoice ? invoice.payment_status : false,
+        delivery_date: invoice? invoice.delivery_date : '',
     })
 
     const submit: FormEventHandler = (e) => {
@@ -47,9 +49,8 @@ export default function InvoiceFormComps({invoice, purchase_orders, purchase_ord
     const [fa, setFa] = useState<number | null>(0)
 
     useEffect(() => {
-        console.log(data.discount)
-        setFa((po?.price ?? 0) * ((100 - data.discount) / 100))
-    }, [po, data.discount])
+        setFa((po?.price ?? 0) * ((100 + data.tax) / 100))
+    }, [po, data.tax])
 
     useEffect(() => {
         setPo(purchase_orders.find(po => po.id == Number(data.purchase_order_id)) ?? null)
@@ -138,6 +139,16 @@ export default function InvoiceFormComps({invoice, purchase_orders, purchase_ord
                             />
                         </div>
                         <div className="grid gap-2">
+                            <Label htmlFor="delivery_date">Tanggal Kirim *</Label>
+                            <Input
+                                id="delivery_date"
+                                name="delivery_date"
+                                type="date"
+                                value={data.delivery_date}
+                                onChange={(e) => setData('delivery_date', e.target.value)}
+                            />
+                        </div>
+                        <div className="grid gap-2">
                             <Label htmlFor="due_date">Jatuh Tempo *</Label>
                             <Input
                                 id="due_date"
@@ -150,12 +161,12 @@ export default function InvoiceFormComps({invoice, purchase_orders, purchase_ord
                     </div>
                     <div className="grid gap-6 md:grid-cols-2">
                         <div className="grid gap-2">
-                            <Label htmlFor="discount">Diskon (%) *</Label>
+                            <Label htmlFor="tax">Tax (%) *</Label>
                             <Input
-                                id="discount"
-                                name="discount"
-                                value={data.discount}
-                                onChange={(e) => setData('discount', Number(e.target.value))}
+                                id="tax"
+                                name="tax"
+                                value={data.tax}
+                                onChange={(e) => setData('tax', Number(e.target.value))}
                             />
                         </div>
                         <div className="grid gap-2">

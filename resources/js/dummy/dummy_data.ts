@@ -181,7 +181,7 @@ export const dummyInvoices: InvoiceItem[] = [
         invoice_date: "2025-01-15",
         due_date: "2025-04-14",
         total_amount: 650000,
-        discount: 0.05,
+        tax: 0.05,
         payment_status: true,
         purchase_order: dummyPurchaseOrders[0],  // PO-2023-001
         bank: "Bank Jatim",
@@ -192,7 +192,7 @@ export const dummyInvoices: InvoiceItem[] = [
         invoice_date: "2025-03-20",
         due_date: "2025-06-19",
         total_amount: 490000,
-        discount: 0,
+        tax: 0,
         payment_status: false,
         purchase_order: dummyPurchaseOrders[1],  // PO-2023-002
         bank: "Bank Mandiri",
@@ -203,7 +203,7 @@ export const dummyInvoices: InvoiceItem[] = [
         invoice_date: "2024-01-25",
         due_date: "2024-02-24",
         total_amount: 537600,
-        discount: 0.1,
+        tax: 0.1,
         payment_status: false,
         purchase_order: dummyPurchaseOrders[2], // PO-2023-003
         bank: "Bank BCA",
@@ -214,7 +214,7 @@ export const dummyInvoices: InvoiceItem[] = [
         invoice_date: "2024-11-10",
         due_date: "2025-01-11",
         total_amount: 780000,
-        discount: 0.02,
+        tax: 0.02,
         payment_status: false,
         purchase_order: dummyPurchaseOrders[3], // PO-2023-004
         bank: "CIMB Niaga",
@@ -225,7 +225,7 @@ export const dummyInvoices: InvoiceItem[] = [
         invoice_date: "2025-01-15",
         due_date: "2025-02-16",
         total_amount: 392000,
-        discount: 0,
+        tax: 0,
         payment_status: true,
         purchase_order: dummyPurchaseOrders[4], // PO-2023-005
         bank: "Bank Jatim",
@@ -236,7 +236,7 @@ export const dummyInvoices: InvoiceItem[] = [
         invoice_date: "2024-10-20",
         due_date: "2024-12-21",
         total_amount: 704000,
-        discount: 0.15,
+        tax: 0.15,
         payment_status: false,
         purchase_order: dummyPurchaseOrders[5], // PO-2023-006
         bank: "Bank BRI",
@@ -247,7 +247,7 @@ export const dummyInvoices: InvoiceItem[] = [
         invoice_date: "2025-03-05",
         due_date: "2025-05-04",
         total_amount: 560000,
-        discount: 0.07,
+        tax: 0.07,
         payment_status: false,
         purchase_order: dummyPurchaseOrders[6], // PO-2023-007
         bank: "CIMB Niagas",

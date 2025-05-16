@@ -13,40 +13,46 @@ class DashboardController extends Controller
     use GetCollecbility;
     public function index()
     {
-        $currYear = (int) date('Y');
-        $results = [
-            $this->getReceivableData($currYear - 3),
-            $this->getReceivableData($currYear - 2),
-            $this->getReceivableData($currYear - 1),
-            $this->getReceivableData($currYear),
-        ];
+        $receivables = [];
+        $temp = date('Y-m-d', strtotime("-11 months"));
+        for ($i=0; $i < 12; $i++) {
+            $m = date('Y-m', strtotime("+ {$i} months", strtotime($temp)));
+            $e = explode('-', $m);
+            $receivables[] = $this->getReceivableData($e[0], $e[1]);
+        }
+
+        $currYear = date('Y');
 
         return Inertia::render('dashboard', [
-            'receivables' => $results,
+            'receivables' => $receivables,
             'counts' => $this->getInvoiceCounts($currYear),
-            'revenue' => $this->getRevenueData($currYear),
+            'revenue' => $this->getRevenueData(),
             'suppliers' => $this->getSuppliersCollectbility(),
         ]);
     }
 
-    private function getReceivableData(int $year)
+    private function getReceivableData(string $year, string $month): object
     {
+        $first = "{$year}-{$month}-01";
+        $last = date('Y-m-d', strtotime('last day of this month', strtotime($first)));
+
         $paid = Invoice::where('payment_status', 1)
-                        ->whereBetween('invoice_date', ["{$year}-01-01", "{$year}-12-31"])
+                        ->whereBetween('invoice_date', [$first, $last])
                         ->sum('total_amount');
 
         $unpaid = Invoice::where('payment_status', 0)
                         ->where('due_date', '>=', date('Y-m-d'))
-                        ->whereBetween('invoice_date', ["{$year}-01-01", "{$year}-12-31"])
+                        ->whereBetween('invoice_date', [$first, $last])
                         ->sum('total_amount');
 
         $overdue = Invoice::where('payment_status', 0)
                             ->where('due_date', '<', date('Y-m-d'))
-                            ->whereBetween('invoice_date', ["{$year}-01-01", "{$year}-12-31"])
+                            ->whereBetween('invoice_date', [$first, $last])
                             ->sum('total_amount');
 
         return (Object)[
             'year' => $year,
+            'month' => $month,
             'paid' => $paid,
             'unpaid' => $unpaid,
             'overdue' => $overdue,
@@ -83,15 +89,51 @@ class DashboardController extends Controller
         ];
     }
 
-    private function getRevenueData(int $year)
+    private function getRevenueData()
     {
-        $revenue = Invoice::sum('total_amount');
-        $last_revenue = Invoice::where('invoice_date', '<', "{$year}-01-01")
+        $nowF = date('Y-m-d', strtotime('first day of this month'));
+        $nowL = date('Y-m-d', strtotime('last day of this month'));
+        $lastMonthF = date('Y-m-d', strtotime('first day of last month'));
+        $lastMonthL = date('Y-m-d', strtotime('last day of last month'));
+
+        $total_revenue = Invoice::where('payment_status', true)->sum('total_amount');
+
+        $nowRevenue = Invoice::where('payment_status', true)
+                                ->whereBetween('invoice_date', [$nowF, $nowL])
                                 ->sum('total_amount');
 
+        $lastMonthRevenue = Invoice::where('payment_status', true)
+                                        ->whereBetween('invoice_date', [$lastMonthF, $lastMonthL])
+                                        ->sum('total_amount');
+
         return (Object)[
-            'revenueIncrease' => (int) $revenue - (int) $last_revenue,
-            'total_revenue' => (int) $revenue,
+            'thisMonthRevenue' => (int) $nowRevenue,
+            'lastMonthRevenue' => (int) $lastMonthRevenue,
+            'total_revenue' => (int) $total_revenue,
+        ];
+    }
+
+    private function getLossData()
+    {
+        $nowF = date('Y-m-d', strtotime('first day of this month'));
+        $nowL = date('Y-m-d', strtotime('last day of this month'));
+        $lastMonthF = date('Y-m-d', strtotime('first day of last month'));
+        $lastMonthL = date('Y-m-d', strtotime('last day of last month'));
+
+        $total_loss = Invoice::where('payment_status', false)->sum('total_amount');
+
+        $nowLoss = Invoice::where('payment_status', false)
+                                ->whereBetween('invoice_date', [$nowF, $nowL])
+                                ->sum('total_amount');
+
+        $lastMonthLoss = Invoice::where('payment_status', false)
+                                        ->whereBetween('invoice_date', [$lastMonthF, $lastMonthL])
+                                        ->sum('total_amount');
+
+        return (Object)[
+            'thisMonthLoss' => (int) $nowLoss,
+            'lastMonthLoss' => (int) $lastMonthLoss,
+            'total_loss' => (int) $total_loss,
         ];
     }
 

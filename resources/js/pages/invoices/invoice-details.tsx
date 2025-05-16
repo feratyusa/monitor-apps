@@ -80,6 +80,7 @@ function InvoiceCardContent({invoice, purchase_order, supplier, product} : Invoi
                     invoice_date={invoice.invoice_date}
                     invoice_due_date={invoice.due_date}
                     bank={invoice.bank}
+                    delivery_date={invoice.delivery_date}
                 />
             </div>
             <Separator className="my-4" />
@@ -89,7 +90,7 @@ function InvoiceCardContent({invoice, purchase_order, supplier, product} : Invoi
                 price_per_unit={product.price_per_unit}
             />
             <div className="flex justify-end mt-5">
-                <InvoiceRecapTable discount={invoice.discount} total_amount={product.price_per_unit * purchase_order.quantity}/>
+                <InvoiceRecapTable tax={invoice.tax} total_amount={product.price_per_unit * purchase_order.quantity}/>
             </div>
         </>
     )
@@ -126,9 +127,10 @@ interface InvoiceExtraDetailsProps {
     invoice_date: string,
     invoice_due_date: string,
     bank: string,
+    delivery_date: string
 }
 
-function InvoiceExtraDetails({invoice_nomor, purchase_order_nomor, invoice_date, invoice_due_date, bank} : InvoiceExtraDetailsProps) {
+function InvoiceExtraDetails({invoice_nomor, purchase_order_nomor, invoice_date, invoice_due_date, bank, delivery_date} : InvoiceExtraDetailsProps) {
 
     function InvoiceDetailRow({name, value} : {name: string, value: string}) {
         return(
@@ -147,7 +149,10 @@ function InvoiceExtraDetails({invoice_nomor, purchase_order_nomor, invoice_date,
                 <InvoiceDetailRow name="Tanggal Invoice" value={toIndonesiaDate(invoice_date)}/>
                 <InvoiceDetailRow name="Jatuh Tempo" value={toIndonesiaDate(invoice_due_date)}/>
             </div>
-            <InvoiceDetailRow name="Bank" value={bank}/>
+            <div className="grid grid-cols-2 gap-2 md:gap-0">
+                <InvoiceDetailRow name="Tanggal Kirim" value={toIndonesiaDate(delivery_date)}/>
+                <InvoiceDetailRow name="Bank" value={bank}/>
+            </div>
         </div>
     )
 }
@@ -184,11 +189,11 @@ function InvoicePriceTable({name, quantity, price_per_unit} : InvoicePriceTableP
 }
 
 interface InvoiceRecapTableProps {
-    discount: number,
+    tax: number,
     total_amount: number,
 }
 
-function InvoiceRecapTable({discount, total_amount} : InvoiceRecapTableProps) {
+function InvoiceRecapTable({tax, total_amount} : InvoiceRecapTableProps) {
     return(
         <div className="w-md">
             <Table className="text-right">
@@ -198,12 +203,12 @@ function InvoiceRecapTable({discount, total_amount} : InvoiceRecapTableProps) {
                         <TableCell>Rp {total_amount.toLocaleString()}</TableCell>
                     </TableRow>
                     <TableRow>
-                        <TableCell>Discount</TableCell>
-                        <TableCell>{discount}%</TableCell>
+                        <TableCell>PPN</TableCell>
+                        <TableCell>{tax}%</TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell className="bg-gray-500/10 font-black">Total Harga Akhir</TableCell>
-                        <TableCell>Rp {(total_amount * (100 - discount) / 100).toLocaleString()}</TableCell>
+                        <TableCell>Rp {(total_amount * (100 + tax) / 100).toLocaleString()}</TableCell>
                     </TableRow>
                 </TableBody>
             </Table>

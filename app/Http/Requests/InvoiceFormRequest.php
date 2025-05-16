@@ -26,9 +26,10 @@ class InvoiceFormRequest extends FormRequest
             'purchase_order_id' => ['required', 'integer'],
             'invoice_date' => ['required', 'date'],
             'due_date' => ['required', 'date'],
-            'discount' => ['required', 'integer'],
+            'tax' => ['required', 'integer'],
             'bank' => ['required', 'string', 'max:255'],
             'payment_status' => ['required', 'boolean'],
+            'delivery_date' => ['required', 'date'],
         ];
     }
 }

@@ -103,16 +103,16 @@ export function InvoicesDataTable({
         },
         {
             accessorFn: (row, index) => {
-                return row.purchase_order.price * (100 - row.discount) / 100;
+                return row.purchase_order.price * (100 - row.tax) / 100;
             },
             id: 'jumlah harga',
             header: ({ column }) => (
                 <DataTableColumnHeader column={column} title="Total Harga" />
             ),
-            cell: ({row}) => <InvoiceSheetContents label={`Rp ${(row.original.purchase_order.price * (100 - row.original.discount) / 100).toLocaleString()},00`} invoice={row.original}/>,
+            cell: ({row}) => <InvoiceSheetContents label={`Rp ${(row.original.purchase_order.price * (100 - row.original.tax) / 100).toLocaleString()},00`} invoice={row.original}/>,
             sortingFn: (rowa, rowb, id) => {
-                const valuea = rowa.original.purchase_order.price * (100 - rowa.original.discount) / 100
-                const valueb = rowb.original.purchase_order.price * (100 - rowb.original.discount) / 100
+                const valuea = rowa.original.purchase_order.price * (100 - rowa.original.tax) / 100
+                const valueb = rowb.original.purchase_order.price * (100 - rowb.original.tax) / 100
                 if(valuea < valueb) return -1;
                 else if(valuea === valueb) return 0;
                 return 1;
