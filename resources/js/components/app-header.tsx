@@ -3,15 +3,14 @@ import { Icon } from '@/components/icon';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { NavigationMenu, NavigationMenuItem, NavigationMenuList, navigationMenuTriggerStyle } from '@/components/ui/navigation-menu';
+import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, navigationMenuTriggerStyle } from '@/components/ui/navigation-menu';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { UserMenuContent } from '@/components/user-menu-content';
 import { useInitials } from '@/hooks/use-initials';
 import { cn } from '@/lib/utils';
 import { type BreadcrumbItem, type NavItem, type SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { BookOpen, Box, Building2, Folder, LayoutGrid, ListOrdered, Menu, Receipt } from 'lucide-react';
+import { BookOpen, Box, Building2, Cog, Folder, LayoutGrid, ListOrdered, Menu, Receipt } from 'lucide-react';
 import AppLogo from './app-logo';
 import AppLogoIcon from './app-logo-icon';
 
@@ -32,14 +31,21 @@ const mainNavItems: NavItem[] = [
         icon: ListOrdered,
     },
     {
-        title: 'Customer',
-        href: '/suppliers',
-        icon: Building2,
-    },
-    {
-        title: 'Products',
-        href: '/products',
-        icon: Box,
+        title: 'Master',
+        href: '/master',
+        icon: Cog,
+        childs: [
+            {
+                title: 'Customer',
+                href: '/suppliers',
+                icon: Building2,
+            },
+            {
+                title: 'Products',
+                href: '/products',
+                icon: Box,
+            },
+        ] 
     },
 ];
 
@@ -105,9 +111,9 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
 
                     {/* Desktop Navigation */}
                     <div className="ml-6 hidden h-full items-center space-x-6 lg:flex">
-                        <NavigationMenu className="flex h-full items-stretch">
+                        <NavigationMenu className="flex h-full items-stretch" viewport={false}>
                             <NavigationMenuList className="flex h-full items-stretch space-x-2">
-                                {mainNavItems.map((item, index) => (
+                                {mainNavItems.map((item, index) => item.childs == null ? (
                                     <NavigationMenuItem key={index} className="relative flex h-full items-center">
                                         <Link
                                             href={item.href}
@@ -123,6 +129,27 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                                         {page.url === item.href && (
                                             <div className="absolute bottom-0 left-0 h-0.5 w-full translate-y-px bg-black dark:bg-white"></div>
                                         )}
+                                    </NavigationMenuItem>
+                                ) : (
+                                    <NavigationMenuItem key={index} className="relative flex h-full items-center">
+                                        <NavigationMenuTrigger>
+                                            {item.icon && <Icon iconNode={item.icon} className="mr-2 h-4 w-4" />}
+                                            {item.title}
+                                        </NavigationMenuTrigger>
+                                        <NavigationMenuContent>
+                                            <ul className="grid w-[200px] gap-4">
+                                                <li>
+                                                    {
+                                                        item.childs.map((child, cIndex) => (
+                                                                <NavigationMenuLink asChild>
+                                                                    <Link href={child.href}>{child.title}</Link>
+                                                                </NavigationMenuLink>
+                                                            )
+                                                        )
+                                                    }
+                                                </li>
+                                            </ul>
+                                        </NavigationMenuContent>
                                     </NavigationMenuItem>
                                 ))}
                             </NavigationMenuList>
