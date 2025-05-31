@@ -1,6 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { PlaceholderPattern } from "@/components/ui/placeholder-pattern";
-import { dummyProducts } from "@/dummy/dummy_data";
 import AppLayout from "@/layouts/app-layout";
 import { BreadcrumbItem } from "@/types";
 import { ProductItem } from "@/types/local";

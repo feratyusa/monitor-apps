@@ -42,3 +42,33 @@ export interface SelectOptionAttribute {
     value: string
     label: string
 }
+
+export interface LocationItem {
+    id: number
+    name: string
+    address: string
+}
+
+export interface PurchaseHistoryItem {
+    id: number
+    buyer: string
+    amount: number
+    total_price: number
+    purchase_date: string
+    location: LocationItem
+}
+
+export interface ForecastItem {
+    year: number
+    locations: ForecastLocation[]
+}
+
+export interface ForecastLocation {
+    location: LocationItem
+    months: ForecastMonth[]
+}
+
+export interface ForecastMonth {
+    amount: number
+    prediction: boolean
+}

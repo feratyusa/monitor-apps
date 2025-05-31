@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ForecastingController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\LocationController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\SupplierController;
@@ -62,6 +64,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('', [ProductController::class, 'index'])->name('products');
     });
 
+    Route::prefix('forecasting')->group( function() {
+        Route::get('', [ForecastingController::class, 'index'])->name('forecasting.index');
+        Route::get('purchase-history/create', [ForecastingController::class, 'purchaseCreate'])->name('forecasting.purchase.create');
+    });
+
+    Route::prefix('locations')->group( function() {
+        Route::get('', [LocationController::class, 'index'])->name('locations');
+    });
 });
 
 require __DIR__.'/settings.php';

@@ -10,7 +10,7 @@ import { useInitials } from '@/hooks/use-initials';
 import { cn } from '@/lib/utils';
 import { type BreadcrumbItem, type NavItem, type SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { BookOpen, Box, Building2, Cog, Folder, LayoutGrid, ListOrdered, Menu, Receipt } from 'lucide-react';
+import { BookOpen, Box, Building2, ChartLine, Cog, Folder, LayoutGrid, ListOrdered, MapPin, Menu, Receipt } from 'lucide-react';
 import AppLogo from './app-logo';
 import AppLogoIcon from './app-logo-icon';
 
@@ -31,6 +31,11 @@ const mainNavItems: NavItem[] = [
         icon: ListOrdered,
     },
     {
+        title: 'Forecasting',
+        href: '/forecasting',
+        icon: ChartLine,
+    },
+    {
         title: 'Master',
         href: '/master',
         icon: Cog,
@@ -44,6 +49,11 @@ const mainNavItems: NavItem[] = [
                 title: 'Products',
                 href: '/products',
                 icon: Box,
+            },
+            {
+                title: 'Locations',
+                href: '/locations',
+                icon: MapPin,
             },
         ] 
     },
@@ -132,7 +142,13 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                                     </NavigationMenuItem>
                                 ) : (
                                     <NavigationMenuItem key={index} className="relative flex h-full items-center">
-                                        <NavigationMenuTrigger>
+                                        <NavigationMenuTrigger 
+                                            className={cn(
+                                                navigationMenuTriggerStyle(),
+                                                page.url === item.href && activeItemStyles,
+                                                'h-9 cursor-pointer px-3',
+                                            )}
+                                        >
                                             {item.icon && <Icon iconNode={item.icon} className="mr-2 h-4 w-4" />}
                                             {item.title}
                                         </NavigationMenuTrigger>
@@ -141,8 +157,11 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                                                 <li>
                                                     {
                                                         item.childs.map((child, cIndex) => (
-                                                                <NavigationMenuLink asChild>
-                                                                    <Link href={child.href}>{child.title}</Link>
+                                                                <NavigationMenuLink key={cIndex}>
+                                                                    <Link href={child.href} className='flex items-center'>
+                                                                        {child.icon && <Icon iconNode={child.icon} className="mr-2 h-4 w-4" />}
+                                                                        {child.title}
+                                                                    </Link>
                                                                 </NavigationMenuLink>
                                                             )
                                                         )
