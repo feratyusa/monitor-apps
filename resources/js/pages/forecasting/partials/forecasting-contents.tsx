@@ -1,4 +1,6 @@
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ForecastItem, ForecastLocation } from "@/types/local";
 
 interface ForecatingContentsProps {
@@ -26,18 +28,44 @@ export default function ForecatingContents({
                     </div>
                 </div>
             </div>
-           {
-            forecast_items.map((item, index) => (
-                <div key={"forecastYearTable_"+index} className="mb-5">
-                    <div className="mb-2">
-                        <p className="text-2xl font-bold">{item.year}</p>
-                    </div>
-                    <ForecastYearTable forecast_locations={item.locations}/>
-                </div>
-            ))
-           } 
+           <ForecastYearTabs forecast_items={forecast_items}/>
         </div>
     )
+}
+
+interface ForecastYearTabsProps {
+    forecast_items: ForecastItem[]
+}
+
+function ForecastYearTabs({forecast_items}: ForecastYearTabsProps) {
+    return(
+        <div className="flex w-full flex-col gap-6">
+            <Tabs defaultValue={forecast_items[0].year.toString()}>
+                <TabsList>
+                    {
+                        forecast_items.map((item, index) => (
+                            <TabsTrigger value={item.year.toString()}>{item.year}</TabsTrigger>
+                        ))
+                    }
+                </TabsList>
+                {
+                    forecast_items.map((item, index) => (
+                        <TabsContent value={item.year.toString()}>
+                            <Card>
+                                <CardHeader>
+                                    <p className="text-2xl font-bold">{item.year}</p>
+                                </CardHeader>
+                                <CardContent>
+                                    <ForecastYearTable forecast_locations={item.locations}/>
+                                </CardContent>
+                            </Card>
+                        </TabsContent>
+                    ))
+                }
+            </Tabs>
+        </div>
+    )
+
 }
 
 interface ForecastYearTableProps {
