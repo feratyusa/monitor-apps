@@ -72,3 +72,13 @@ export interface ForecastMonth {
     amount: number
     prediction: boolean
 }
+
+export interface SummaryItem {
+    year: number
+    locations: SummaryLocation[]
+}
+
+export interface SummaryLocation {
+    location: LocationItem
+    months: number[]
+}

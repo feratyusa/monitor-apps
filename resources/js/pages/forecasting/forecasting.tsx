@@ -2,11 +2,13 @@ import AppLayout from "@/layouts/app-layout";
 import { BreadcrumbItem } from "@/types";
 import { Head } from "@inertiajs/react";
 import { ChartLine } from "lucide-react";
-import { ForecastItem, PurchaseHistoryItem } from "@/types/local";
+import { ForecastItem, PurchaseHistoryItem, SummaryItem } from "@/types/local";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import PurchaseHistoryContents from "./partials/purchase-history-contents";
-import { dummyForecastItem, dummyPurchaseHistoryItems } from "@/dummy/dummy_data";
+import { dummyForecastItem, dummyPurchaseHistoryItems, dummySummary } from "@/dummy/dummy_data";
 import ForecatingContents from "./partials/forecasting-contents";
+import React from "react";
+import SummaryContents from "./partials/summary-contents";
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -18,11 +20,13 @@ const breadcrumbs: BreadcrumbItem[] = [
 interface ForecastingProps {
     forecasting_items: ForecastItem[]
     purchase_histories: PurchaseHistoryItem[]
+    summary_items: SummaryItem[]
 }
 
 export default function Forecasting({
     forecasting_items = dummyForecastItem, 
-    purchase_histories = dummyPurchaseHistoryItems
+    purchase_histories = dummyPurchaseHistoryItems,
+    summary_items = dummySummary,
 } : ForecastingProps) {    
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -46,6 +50,9 @@ export default function Forecasting({
                     historyNode={
                         <PurchaseHistoryContents purchase_histories={purchase_histories}/>
                     } 
+                    summaryHistoryNode={
+                        <SummaryContents summary_items={summary_items}/>
+                    }
                 />
             </div>
         </AppLayout>
@@ -55,21 +62,26 @@ export default function Forecasting({
 interface ForecastingTabsProps {
     forecastingNode: React.ReactNode
     historyNode: React.ReactNode
+    summaryHistoryNode: React.ReactNode
 }
 
-function ForecastingTabs({forecastingNode, historyNode} : ForecastingTabsProps) {
+function ForecastingTabs({forecastingNode, historyNode, summaryHistoryNode} : ForecastingTabsProps) {
     return(
         <div className="flex w-full flex-col gap-6">
             <Tabs defaultValue="forecast">
                 <TabsList>
                     <TabsTrigger className="text-lg mr-5" value="forecast">Forecast</TabsTrigger>
-                    <TabsTrigger className="text-lg" value="history">Purchase History</TabsTrigger>
+                    <TabsTrigger className="text-lg mr-5" value="history">Purchase Prediction</TabsTrigger>
+                    <TabsTrigger className="text-lg" value="summary">Summary Purchase Prediction</TabsTrigger>
                 </TabsList>
                 <TabsContent  value="forecast">
                     {forecastingNode}
                 </TabsContent>
                 <TabsContent value="history">
                     {historyNode}
+                </TabsContent>
+                <TabsContent value="summary">
+                    {summaryHistoryNode}
                 </TabsContent>
             </Tabs>
         </div>

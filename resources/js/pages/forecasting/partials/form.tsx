@@ -36,6 +36,7 @@ export default function PurchaseFormComps({purchase_history, location_selections
     const submit: FormEventHandler = (e) => {
         e.preventDefault()
         console.log(data)
+        post(route('forecasting.purchase.store'))
     }
 
     return(
@@ -43,9 +44,9 @@ export default function PurchaseFormComps({purchase_history, location_selections
             <CardHeader>
                 <CardTitle className="flex gap-6 items-center text-xl">
                     <Receipt />
-                    Form Purchase History
+                    Form Purchase Prediction
                 </CardTitle>
-                <CardDescription>Tambah Purchase History baru</CardDescription>
+                <CardDescription>Tambah Purchase Prediction baru</CardDescription>
             </CardHeader>
             <CardContent>
                 <form className="flex flex-col gap-6 p-4" onSubmit={submit}>
@@ -59,11 +60,11 @@ export default function PurchaseFormComps({purchase_history, location_selections
                         />
                     </div>
                     <div className="grid gap-2">
-                        <Label htmlFor="location">Lokasi Cabang *</Label>
+                        <Label htmlFor="location">Cabang *</Label>
                         <ReactSelect
                             id="location"
                             name="location"
-                            placeholder="Lokasi Cabang"
+                            placeholder="Cabang"
                             value={location_selections.find(l => l.value == data.location_id.toString())}
                             options={location_selections}
                             onChange={(e) => setData('location_id', e?.value ? Number(e.value) : 0)}
@@ -72,7 +73,7 @@ export default function PurchaseFormComps({purchase_history, location_selections
                     </div>
                     <div className="grid md:grid-cols-2 gap-6">
                         <div className="grid gap-2">
-                            <Label htmlFor="amount">Jumlah Pembelian (Liter) *</Label>
+                            <Label htmlFor="amount">Jumlah Pembelian (kL) *</Label>
                             <Input
                                 id="amount"
                                 name="amount"

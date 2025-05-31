@@ -24,11 +24,16 @@ export default function ForecatingContents({
                             <div className="w-2 h-2 rounded-full bg-black"></div>
                             <p className="text-sm">Real</p>
                         </div>
-                        <p className="italic text-sm">*jumlah dalam liter</p>
+                        <p className="italic text-sm">*jumlah dalam kiloliter (kL)</p>
                     </div>
                 </div>
             </div>
-           <ForecastYearTabs forecast_items={forecast_items}/>
+            {
+                forecast_items.length > 0 ?
+                <ForecastYearTabs forecast_items={forecast_items}/>
+                :
+                <p>Kosong</p>
+            }
         </div>
     )
 }
@@ -40,23 +45,23 @@ interface ForecastYearTabsProps {
 function ForecastYearTabs({forecast_items}: ForecastYearTabsProps) {
     return(
         <div className="flex w-full flex-col gap-6">
-            <Tabs defaultValue={forecast_items[0].year.toString()}>
+            <Tabs defaultValue={new Date().getFullYear().toString()}>
                 <TabsList>
                     {
                         forecast_items.map((item, index) => (
-                            <TabsTrigger value={item.year.toString()}>{item.year}</TabsTrigger>
+                            <TabsTrigger key={"fctab_"+index} value={item.year.toString()}>{item.year}</TabsTrigger>
                         ))
                     }
                 </TabsList>
                 {
                     forecast_items.map((item, index) => (
-                        <TabsContent value={item.year.toString()}>
+                        <TabsContent key={"fcontenttab_"+index} value={item.year.toString()}>
                             <Card>
                                 <CardHeader>
                                     <p className="text-2xl font-bold">{item.year}</p>
                                 </CardHeader>
                                 <CardContent>
-                                    <ForecastYearTable forecast_locations={item.locations}/>
+                                    <ForecastYearTable key={"fctable_"+index} forecast_locations={item.locations}/>
                                 </CardContent>
                             </Card>
                         </TabsContent>
@@ -76,7 +81,7 @@ function ForecastYearTable({forecast_locations} : ForecastYearTableProps) {
     return(
         <Table>
             <TableHeader>
-                <TableRow className="font-extrabold">
+                <TableRow>
                     <TableHead>Lokasi</TableHead>
                     <TableHead>Januari</TableHead>
                     <TableHead>Februari</TableHead>
@@ -96,11 +101,12 @@ function ForecastYearTable({forecast_locations} : ForecastYearTableProps) {
                 {
                     forecast_locations.map((location, index) => (
                         <TableRow key={"tableBody_"+index}>
-                            <TableCell>{location.location.name}</TableCell>
+                            <TableCell className="font-bold">{location.location.name}</TableCell>
                             {
                                 location.months.map((month, mIndex) => (
                                     <TableCell 
                                         className={`${month.prediction ? 'text-green-500' : ''}`}
+                                        key={"tcell_fc_"+mIndex}
                                     >
                                         {month.amount.toLocaleString()}
                                     </TableCell>

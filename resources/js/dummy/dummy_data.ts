@@ -1,4 +1,4 @@
-import { ForecastItem, InvoiceItem, LocationItem, ProductItem, PurchaseHistoryItem, PurchaseOrderItem, SupplierItem } from "@/types/local";
+import { ForecastItem, InvoiceItem, LocationItem, ProductItem, PurchaseHistoryItem, PurchaseOrderItem, SummaryItem, SupplierItem } from "@/types/local";
 
 export const dummyProducts: ProductItem[] = [
     {
@@ -314,6 +314,79 @@ export const dummyPurchaseHistoryItems: PurchaseHistoryItem[] = [
 
 export const dummyForecastItem: ForecastItem[] = [
     {
+        year: 2026,
+        locations: [
+            {
+                location: dummyLocations[0],
+                months: [
+                    {amount: 25000, prediction: true},
+                    {amount: 32100, prediction: true},
+                    {amount: 24200, prediction: true},
+                    {amount: 21230, prediction: true},
+                    {amount: 15000, prediction: true},
+                    {amount: 32000, prediction: true},
+                    {amount: 23200, prediction: true},
+                    {amount: 22000, prediction: true},
+                    {amount: 23300, prediction: true},
+                    {amount: 24100, prediction: true},
+                    {amount: 15200, prediction: true},
+                    {amount: 12400, prediction: true},
+                ]
+            },
+            {
+                location: dummyLocations[1],
+                months: [
+                    {amount: 25000, prediction: true},
+                    {amount: 32100, prediction: true},
+                    {amount: 24200, prediction: true},
+                    {amount: 21230, prediction: true},
+                    {amount: 15000, prediction: true},
+                    {amount: 32000, prediction: true},
+                    {amount: 23200, prediction: true},
+                    {amount: 22000, prediction: true},
+                    {amount: 23300, prediction: true},
+                    {amount: 24100, prediction: true},
+                    {amount: 15200, prediction: true},
+                    {amount: 12400, prediction: true},
+                ]
+            },
+            {
+                location: dummyLocations[3],
+                months: [
+                    {amount: 25000, prediction: true},
+                    {amount: 32100, prediction: true},
+                    {amount: 24200, prediction: true},
+                    {amount: 21230, prediction: true},
+                    {amount: 15000, prediction: true},
+                    {amount: 32000, prediction: true},
+                    {amount: 23200, prediction: true},
+                    {amount: 22000, prediction: true},
+                    {amount: 23300, prediction: true},
+                    {amount: 24100, prediction: true},
+                    {amount: 15200, prediction: true},
+                    {amount: 12400, prediction: true},
+                ]
+            },
+            {
+                location: dummyLocations[4],
+                months: [
+                    {amount: 25000, prediction: true},
+                    {amount: 32100, prediction: true},
+                    {amount: 24200, prediction: true},
+                    {amount: 21230, prediction: true},
+                    {amount: 15000, prediction: true},
+                    {amount: 32000, prediction: true},
+                    {amount: 23200, prediction: true},
+                    {amount: 22000, prediction: true},
+                    {amount: 23300, prediction: true},
+                    {amount: 24100, prediction: true},
+                    {amount: 15200, prediction: true},
+                    {amount: 12400, prediction: true},
+                ]
+            },
+        ]
+    },
+    {
         year: 2025,
         locations: [
             {
@@ -459,4 +532,58 @@ export const dummyForecastItem: ForecastItem[] = [
             },
         ]
     },
+]
+
+export const dummySummary: SummaryItem[] = [
+    {
+        year: 2025,
+        locations: [
+            {
+                location: dummyLocations[0],
+                months: [23000, 21500, 22000, 18000, 15000, 19000, 20000, 18000, 19000, 25000, 21000, 22000]
+            },
+            {
+                location: dummyLocations[1],
+                months: [23000, 21500, 22000, 18000, 15000, 19000, 20000, 18000, 19000, 25000, 21000, 22000]
+            },
+            {
+                location: dummyLocations[2],
+                months: [23000, 21500, 22000, 18000, 15000, 19000, 20000, 18000, 19000, 25000, 21000, 22000]
+            },
+            {
+                location: dummyLocations[3],
+                months: [23000, 21500, 22000, 18000, 15000, 19000, 20000, 18000, 19000, 25000, 21000, 22000]
+            },
+            {
+                location: dummyLocations[4],
+                months: [23000, 21500, 22000, 18000, 15000, 19000, 20000, 18000, 19000, 25000, 21000, 22000]
+            },
+        ],   
+    },
+    {
+        year: 2024,
+        locations: [
+            {
+                location: dummyLocations[0],
+                months: [23000, 21500, 22000, 18000, 15000, 19000, 20000, 18000, 19000, 25000, 21000, 22000]
+            },
+            {
+                location: dummyLocations[1],
+                months: [23000, 21500, 22000, 18000, 15000, 19000, 20000, 18000, 19000, 25000, 21000, 22000]
+            },
+            {
+                location: dummyLocations[2],
+                months: [23000, 21500, 22000, 18000, 15000, 19000, 20000, 18000, 19000, 25000, 21000, 22000]
+            },
+            {
+                location: dummyLocations[3],
+                months: [23000, 21500, 22000, 18000, 15000, 19000, 20000, 18000, 19000, 25000, 21000, 22000]
+            },
+            {
+                location: dummyLocations[4],
+                months: [23000, 21500, 22000, 18000, 15000, 19000, 20000, 18000, 19000, 25000, 21000, 22000]
+            },
+        ],
+        
+    }
 ]

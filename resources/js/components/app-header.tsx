@@ -51,7 +51,7 @@ const mainNavItems: NavItem[] = [
                 icon: Box,
             },
             {
-                title: 'Locations',
+                title: 'Cabang',
                 href: '/locations',
                 icon: MapPin,
             },

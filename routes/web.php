@@ -66,7 +66,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::prefix('forecasting')->group( function() {
         Route::get('', [ForecastingController::class, 'index'])->name('forecasting.index');
-        Route::get('purchase-history/create', [ForecastingController::class, 'purchaseCreate'])->name('forecasting.purchase.create');
+        Route::prefix('purchase-history')->group(function() {
+            Route::get('create', [ForecastingController::class, 'purchaseCreate'])->name('forecasting.purchase.create');
+            Route::post('store', [ForecastingController::class, 'purchaseStore'])->name('forecasting.purchase.store');
+        });
     });
 
     Route::prefix('locations')->group( function() {

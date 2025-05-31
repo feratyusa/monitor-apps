@@ -14,7 +14,7 @@ export default function PurchaseHistoryContents({purchase_histories} : PurchaseH
             <Link href={route('forecasting.purchase.create')}>
                 <Button className="w-full" variant={"outline"}>
                     <Plus />
-                    Tambah Purchase History
+                    Tambah Purchase Prediction
                 </Button>
             </Link>
             <PurchaseHistoryDataTable data={purchase_histories}/>

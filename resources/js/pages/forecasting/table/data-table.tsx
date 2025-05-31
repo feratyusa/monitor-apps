@@ -49,7 +49,7 @@ export function PurchaseHistoryDataTable({
             accessorKey: 'buyer',
             id: 'buyer',
             header: ({ column }) => (
-                <DataTableColumnHeader column={column} title="Buyer" />
+                <DataTableColumnHeader column={column} title="Customer" />
             ),
             cell: info => info.getValue(),
         },
@@ -57,7 +57,7 @@ export function PurchaseHistoryDataTable({
             accessorKey: 'location.name',
             id: 'location',
             header: ({ column }) => (
-                <DataTableColumnHeader column={column} title="Lokasi" />
+                <DataTableColumnHeader column={column} title="Cabang" />
             ),
             cell: info => info.getValue(),
         },
@@ -65,9 +65,9 @@ export function PurchaseHistoryDataTable({
             accessorKey: 'amount',
             id: 'amount',
             header: ({ column }) => (
-                <DataTableColumnHeader column={column} title="Jumlah Liter" />
+                <DataTableColumnHeader column={column} title="Jumlah (kL)" />
             ),
-            cell: info => info.getValue(),
+            cell: info => Number(info.getValue()).toLocaleString(),
         },
         {
             accessorKey: 'total_price',
