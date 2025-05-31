@@ -118,15 +118,15 @@ export default function InvoiceFormComps({invoice, purchase_orders, purchase_ord
                         </div>
                     </div>
                     <div className="grid gap-2">
-                            <Label htmlFor="po_date">Tanggal Purchase Order</Label>
-                            <Input
-                                id="po_date"
-                                name="po_date"
-                                type="date"
-                                value={po?.purchase_date ?? ""}
-                                disabled
-                            />
-                        </div>
+                        <Label htmlFor="po_date">Tanggal Purchase Order</Label>
+                        <Input
+                            id="po_date"
+                            name="po_date"
+                            type="date"
+                            value={po?.purchase_date ?? ""}
+                            disabled
+                        />
+                    </div>
                     <div className="grid gap-6 md:grid-cols-2">
                         <div className="grid gap-2">
                             <Label htmlFor="invoice_date">Tanggal Invoice *</Label>
