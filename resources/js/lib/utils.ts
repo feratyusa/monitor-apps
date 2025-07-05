@@ -15,3 +15,8 @@ export function toIndonesiaDate(date: string, options?: Intl.DateTimeFormatOptio
     return new Date(date).toLocaleDateString('id', _options)
 
 }
+
+export const MONTH_NAME = [
+    "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", 
+    "Agustus", "September", "Oktober", "November", "Desember"
+]

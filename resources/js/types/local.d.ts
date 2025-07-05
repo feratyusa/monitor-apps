@@ -58,17 +58,17 @@ export interface PurchaseHistoryItem {
     location: LocationItem
 }
 
-export interface ForecastItem {
+export interface PurchasePredictionItem {
     year: number
-    locations: ForecastLocation[]
+    locations: PurchasePredictionLocation[]
 }
 
-export interface ForecastLocation {
+export interface PurchasePredictionLocation {
     location: LocationItem
-    months: ForecastMonth[]
+    months: PurchasePredictionMonth[]
 }
 
-export interface ForecastMonth {
+export interface PurchasePredictionMonth {
     amount: number
     prediction: boolean
 }
@@ -81,4 +81,27 @@ export interface SummaryItem {
 export interface SummaryLocation {
     location: LocationItem
     months: number[]
+}
+
+export interface ForecastYear {
+    year: number
+    quantity_total: number
+}
+
+export interface ForecastMonth {
+    month: number
+    quantity_total: number
+}
+
+export interface ForecastItem {
+    customer: SupplierItem
+    type: "cash" | "invoice"
+    quantity: number
+    purchase_date: string
+    week: number
+}
+
+export interface ForecastWeek {
+    customer: SupplierItem
+    forecast_item: ForecastItem[]
 }

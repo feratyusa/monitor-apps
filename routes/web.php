@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ForecastingController;
+use App\Http\Controllers\PurchasePredictionController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\ProductController;
@@ -39,24 +40,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::prefix('purchase-orders')->group( function() {
         Route::get('', [PurchaseOrderController::class, 'index'])->name('purchase-orders');
-
         Route::get('create', [PurchaseOrderController::class, 'create'])->name('purchase-orders.create');
-
         Route::post('store', [PurchaseOrderController::class, 'store'])->name('purchase-orders.store');
-
         Route::get('{id}',[PurchaseOrderController::class, 'show'])->name('purchase-orders.detail');
-
         Route::get('{id}/edit', [PurchaseOrderController::class, 'edit'])->name('purchase-orders.edit');
-
         Route::put('{id}/update', [PurchaseOrderController::class, 'update'])->name('purchase-orders.update');
-
         Route::delete('{id}', [PurchaseOrderController::class, 'destroy'])->name('purchase-orders.destroy');
 
     });
 
     Route::prefix('suppliers')->group( function() {
         Route::get('', [SupplierController::class, 'index'])->name('suppliers');
-
         Route::get('{id}', [SupplierController::class, 'show'])->name('suppliers.detail');
     });
 
@@ -66,9 +60,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::prefix('forecasting')->group( function() {
         Route::get('', [ForecastingController::class, 'index'])->name('forecasting.index');
+        Route::prefix('{year}')->group(function(){
+            Route::get('', [ForecastingController::class, 'getMonth'])->name('forecasting.month');
+            Route::get('/{month}', [ForecastingController::class, 'getWeek'])->name('forecasting.week');
+        });
+    });
+
+    Route::prefix('purchase-predictions')->group( function() {
+        Route::get('', [PurchasePredictionController::class, 'index'])->name('purchase-predictions.index');
         Route::prefix('purchase-history')->group(function() {
-            Route::get('create', [ForecastingController::class, 'purchaseCreate'])->name('forecasting.purchase.create');
-            Route::post('store', [ForecastingController::class, 'purchaseStore'])->name('forecasting.purchase.store');
+            Route::get('create', [PurchasePredictionController::class, 'purchaseCreate'])->name('purchase-predictions.purchase.create');
+            Route::post('store', [PurchasePredictionController::class, 'purchaseStore'])->name('purchase-predictions.purchase.store');
         });
     });
 

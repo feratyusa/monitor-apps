@@ -1,10 +1,10 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ForecastItem, ForecastLocation } from "@/types/local";
+import { PurchasePredictionItem, PurchasePredictionLocation } from "@/types/local";
 
 interface ForecatingContentsProps {
-    forecast_items: ForecastItem[]
+    forecast_items: PurchasePredictionItem[]
 }
 
 export default function ForecatingContents({
@@ -39,7 +39,7 @@ export default function ForecatingContents({
 }
 
 interface ForecastYearTabsProps {
-    forecast_items: ForecastItem[]
+    forecast_items: PurchasePredictionItem[]
 }
 
 function ForecastYearTabs({forecast_items}: ForecastYearTabsProps) {
@@ -74,7 +74,7 @@ function ForecastYearTabs({forecast_items}: ForecastYearTabsProps) {
 }
 
 interface ForecastYearTableProps {
-    forecast_locations: ForecastLocation[]
+    forecast_locations: PurchasePredictionLocation[]
 }
 
 function ForecastYearTable({forecast_locations} : ForecastYearTableProps) {

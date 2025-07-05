@@ -1,4 +1,4 @@
-import { ForecastItem, InvoiceItem, LocationItem, ProductItem, PurchaseHistoryItem, PurchaseOrderItem, SummaryItem, SupplierItem } from "@/types/local";
+import { PurchasePredictionItem, InvoiceItem, LocationItem, ProductItem, PurchaseHistoryItem, PurchaseOrderItem, SummaryItem, SupplierItem, ForecastYear, ForecastMonth, ForecastItem, ForecastWeek } from "@/types/local";
 
 export const dummyProducts: ProductItem[] = [
     {
@@ -83,7 +83,7 @@ export const dummySuppliers: SupplierItem[] = [
 
 export const dummyPurchaseOrders: PurchaseOrderItem[] = [
     {
-        id:1,
+        id: 1,
         nomor: "PO-2023-001",
         supplier: dummySuppliers[0], // Global Tech Solutions
         product: dummyProducts[0], // BIOSOLAR (60)
@@ -92,7 +92,7 @@ export const dummyPurchaseOrders: PurchaseOrderItem[] = [
         price: 650000 // 50 * 13000
     },
     {
-        id:2,
+        id: 2,
         nomor: "PO-2023-002",
         supplier: dummySuppliers[1], // Premium Office Supplies
         product: dummyProducts[1], // BIOSOLAR (70)
@@ -101,7 +101,7 @@ export const dummyPurchaseOrders: PurchaseOrderItem[] = [
         price: 490000 // 35 * 14000
     },
     {
-        id:3,
+        id: 3,
         nomor: "PO-2023-003",
         supplier: dummySuppliers[2], // Eco-Friendly Materials Co.
         product: dummyProducts[2], // BIOSOLAR (80)
@@ -110,7 +110,7 @@ export const dummyPurchaseOrders: PurchaseOrderItem[] = [
         price: 537600 // 42 * 12800
     },
     {
-        id:4,
+        id: 4,
         nomor: "PO-2023-004",
         supplier: dummySuppliers[3], // Swift Logistics International
         product: dummyProducts[0], // BIOSOLAR (60)
@@ -119,7 +119,7 @@ export const dummyPurchaseOrders: PurchaseOrderItem[] = [
         price: 780000 // 60 * 13000
     },
     {
-        id:5,
+        id: 5,
         nomor: "PO-2023-005",
         supplier: dummySuppliers[4], // Quality Food Distributors
         product: dummyProducts[1], // BIOSOLAR (70)
@@ -128,7 +128,7 @@ export const dummyPurchaseOrders: PurchaseOrderItem[] = [
         price: 392000 // 28 * 14000
     },
     {
-        id:6,
+        id: 6,
         nomor: "PO-2023-006",
         supplier: dummySuppliers[5], // Advanced Manufacturing Inc.
         product: dummyProducts[2], // BIOSOLAR (80)
@@ -137,7 +137,7 @@ export const dummyPurchaseOrders: PurchaseOrderItem[] = [
         price: 704000 // 55 * 12800
     },
     {
-        id:7,
+        id: 7,
         nomor: "PO-2023-007",
         supplier: dummySuppliers[0], // Global Tech Solutions
         product: dummyProducts[1], // BIOSOLAR (70)
@@ -146,7 +146,7 @@ export const dummyPurchaseOrders: PurchaseOrderItem[] = [
         price: 560000 // 40 * 14000
     },
     {
-        id:8,
+        id: 8,
         nomor: "PO-2023-008",
         supplier: dummySuppliers[2], // Eco-Friendly Materials Co.
         product: dummyProducts[0], // BIOSOLAR (60)
@@ -155,7 +155,7 @@ export const dummyPurchaseOrders: PurchaseOrderItem[] = [
         price: 975000 // 75 * 13000
     },
     {
-        id:9,
+        id: 9,
         nomor: "PO-2023-009",
         supplier: dummySuppliers[4], // Quality Food Distributors
         product: dummyProducts[2], // BIOSOLAR (80)
@@ -164,7 +164,7 @@ export const dummyPurchaseOrders: PurchaseOrderItem[] = [
         price: 384000 // 30 * 12800
     },
     {
-        id:10,
+        id: 10,
         nomor: "PO-2023-010",
         supplier: dummySuppliers[3], // Swift Logistics International
         product: dummyProducts[1], // BIOSOLAR (70)
@@ -262,11 +262,11 @@ export const dummyInvoices: InvoiceItem[] = [
 ];
 
 export const dummyLocations: LocationItem[] = [
-    {id: 1, name: "Balangan", address: "Jalan Balangan"},
-    {id: 2, name: "Banjarmasin", address: "Jalan Balangan"},
-    {id: 3, name: "Tanah Bumbu", address: "Jalan Tanah Bumbu"},
-    {id: 4, name: "Tanah Laut", address: "Jalan Tanah Laut"},
-    {id: 5, name: "Tanah Baru", address: "Jalan Tanah Baru"},
+    { id: 1, name: "Balangan", address: "Jalan Balangan" },
+    { id: 2, name: "Banjarmasin", address: "Jalan Balangan" },
+    { id: 3, name: "Tanah Bumbu", address: "Jalan Tanah Bumbu" },
+    { id: 4, name: "Tanah Laut", address: "Jalan Tanah Laut" },
+    { id: 5, name: "Tanah Baru", address: "Jalan Tanah Baru" },
 ]
 
 export const dummyPurchaseHistoryItems: PurchaseHistoryItem[] = [
@@ -312,76 +312,76 @@ export const dummyPurchaseHistoryItems: PurchaseHistoryItem[] = [
     },
 ]
 
-export const dummyForecastItem: ForecastItem[] = [
+export const dummyForecastItem: PurchasePredictionItem[] = [
     {
         year: 2026,
         locations: [
             {
                 location: dummyLocations[0],
                 months: [
-                    {amount: 25000, prediction: true},
-                    {amount: 32100, prediction: true},
-                    {amount: 24200, prediction: true},
-                    {amount: 21230, prediction: true},
-                    {amount: 15000, prediction: true},
-                    {amount: 32000, prediction: true},
-                    {amount: 23200, prediction: true},
-                    {amount: 22000, prediction: true},
-                    {amount: 23300, prediction: true},
-                    {amount: 24100, prediction: true},
-                    {amount: 15200, prediction: true},
-                    {amount: 12400, prediction: true},
+                    { amount: 25000, prediction: true },
+                    { amount: 32100, prediction: true },
+                    { amount: 24200, prediction: true },
+                    { amount: 21230, prediction: true },
+                    { amount: 15000, prediction: true },
+                    { amount: 32000, prediction: true },
+                    { amount: 23200, prediction: true },
+                    { amount: 22000, prediction: true },
+                    { amount: 23300, prediction: true },
+                    { amount: 24100, prediction: true },
+                    { amount: 15200, prediction: true },
+                    { amount: 12400, prediction: true },
                 ]
             },
             {
                 location: dummyLocations[1],
                 months: [
-                    {amount: 25000, prediction: true},
-                    {amount: 32100, prediction: true},
-                    {amount: 24200, prediction: true},
-                    {amount: 21230, prediction: true},
-                    {amount: 15000, prediction: true},
-                    {amount: 32000, prediction: true},
-                    {amount: 23200, prediction: true},
-                    {amount: 22000, prediction: true},
-                    {amount: 23300, prediction: true},
-                    {amount: 24100, prediction: true},
-                    {amount: 15200, prediction: true},
-                    {amount: 12400, prediction: true},
+                    { amount: 25000, prediction: true },
+                    { amount: 32100, prediction: true },
+                    { amount: 24200, prediction: true },
+                    { amount: 21230, prediction: true },
+                    { amount: 15000, prediction: true },
+                    { amount: 32000, prediction: true },
+                    { amount: 23200, prediction: true },
+                    { amount: 22000, prediction: true },
+                    { amount: 23300, prediction: true },
+                    { amount: 24100, prediction: true },
+                    { amount: 15200, prediction: true },
+                    { amount: 12400, prediction: true },
                 ]
             },
             {
                 location: dummyLocations[3],
                 months: [
-                    {amount: 25000, prediction: true},
-                    {amount: 32100, prediction: true},
-                    {amount: 24200, prediction: true},
-                    {amount: 21230, prediction: true},
-                    {amount: 15000, prediction: true},
-                    {amount: 32000, prediction: true},
-                    {amount: 23200, prediction: true},
-                    {amount: 22000, prediction: true},
-                    {amount: 23300, prediction: true},
-                    {amount: 24100, prediction: true},
-                    {amount: 15200, prediction: true},
-                    {amount: 12400, prediction: true},
+                    { amount: 25000, prediction: true },
+                    { amount: 32100, prediction: true },
+                    { amount: 24200, prediction: true },
+                    { amount: 21230, prediction: true },
+                    { amount: 15000, prediction: true },
+                    { amount: 32000, prediction: true },
+                    { amount: 23200, prediction: true },
+                    { amount: 22000, prediction: true },
+                    { amount: 23300, prediction: true },
+                    { amount: 24100, prediction: true },
+                    { amount: 15200, prediction: true },
+                    { amount: 12400, prediction: true },
                 ]
             },
             {
                 location: dummyLocations[4],
                 months: [
-                    {amount: 25000, prediction: true},
-                    {amount: 32100, prediction: true},
-                    {amount: 24200, prediction: true},
-                    {amount: 21230, prediction: true},
-                    {amount: 15000, prediction: true},
-                    {amount: 32000, prediction: true},
-                    {amount: 23200, prediction: true},
-                    {amount: 22000, prediction: true},
-                    {amount: 23300, prediction: true},
-                    {amount: 24100, prediction: true},
-                    {amount: 15200, prediction: true},
-                    {amount: 12400, prediction: true},
+                    { amount: 25000, prediction: true },
+                    { amount: 32100, prediction: true },
+                    { amount: 24200, prediction: true },
+                    { amount: 21230, prediction: true },
+                    { amount: 15000, prediction: true },
+                    { amount: 32000, prediction: true },
+                    { amount: 23200, prediction: true },
+                    { amount: 22000, prediction: true },
+                    { amount: 23300, prediction: true },
+                    { amount: 24100, prediction: true },
+                    { amount: 15200, prediction: true },
+                    { amount: 12400, prediction: true },
                 ]
             },
         ]
@@ -392,69 +392,69 @@ export const dummyForecastItem: ForecastItem[] = [
             {
                 location: dummyLocations[0],
                 months: [
-                    {amount: 25000, prediction: false},
-                    {amount: 32100, prediction: false},
-                    {amount: 24200, prediction: false},
-                    {amount: 21230, prediction: false},
-                    {amount: 15000, prediction: false},
-                    {amount: 32000, prediction: true},
-                    {amount: 23200, prediction: true},
-                    {amount: 22000, prediction: true},
-                    {amount: 23300, prediction: true},
-                    {amount: 24100, prediction: true},
-                    {amount: 15200, prediction: true},
-                    {amount: 12400, prediction: true},
+                    { amount: 25000, prediction: false },
+                    { amount: 32100, prediction: false },
+                    { amount: 24200, prediction: false },
+                    { amount: 21230, prediction: false },
+                    { amount: 15000, prediction: false },
+                    { amount: 32000, prediction: true },
+                    { amount: 23200, prediction: true },
+                    { amount: 22000, prediction: true },
+                    { amount: 23300, prediction: true },
+                    { amount: 24100, prediction: true },
+                    { amount: 15200, prediction: true },
+                    { amount: 12400, prediction: true },
                 ]
             },
             {
                 location: dummyLocations[1],
                 months: [
-                    {amount: 25000, prediction: false},
-                    {amount: 32100, prediction: false},
-                    {amount: 24200, prediction: false},
-                    {amount: 21230, prediction: false},
-                    {amount: 15000, prediction: false},
-                    {amount: 32000, prediction: true},
-                    {amount: 23200, prediction: true},
-                    {amount: 22000, prediction: true},
-                    {amount: 23300, prediction: true},
-                    {amount: 24100, prediction: true},
-                    {amount: 15200, prediction: true},
-                    {amount: 12400, prediction: true},
+                    { amount: 25000, prediction: false },
+                    { amount: 32100, prediction: false },
+                    { amount: 24200, prediction: false },
+                    { amount: 21230, prediction: false },
+                    { amount: 15000, prediction: false },
+                    { amount: 32000, prediction: true },
+                    { amount: 23200, prediction: true },
+                    { amount: 22000, prediction: true },
+                    { amount: 23300, prediction: true },
+                    { amount: 24100, prediction: true },
+                    { amount: 15200, prediction: true },
+                    { amount: 12400, prediction: true },
                 ]
             },
             {
                 location: dummyLocations[3],
                 months: [
-                    {amount: 25000, prediction: false},
-                    {amount: 32100, prediction: false},
-                    {amount: 24200, prediction: false},
-                    {amount: 21230, prediction: false},
-                    {amount: 15000, prediction: false},
-                    {amount: 32000, prediction: true},
-                    {amount: 23200, prediction: true},
-                    {amount: 22000, prediction: true},
-                    {amount: 23300, prediction: true},
-                    {amount: 24100, prediction: true},
-                    {amount: 15200, prediction: true},
-                    {amount: 12400, prediction: true},
+                    { amount: 25000, prediction: false },
+                    { amount: 32100, prediction: false },
+                    { amount: 24200, prediction: false },
+                    { amount: 21230, prediction: false },
+                    { amount: 15000, prediction: false },
+                    { amount: 32000, prediction: true },
+                    { amount: 23200, prediction: true },
+                    { amount: 22000, prediction: true },
+                    { amount: 23300, prediction: true },
+                    { amount: 24100, prediction: true },
+                    { amount: 15200, prediction: true },
+                    { amount: 12400, prediction: true },
                 ]
             },
             {
                 location: dummyLocations[4],
                 months: [
-                    {amount: 25000, prediction: false},
-                    {amount: 32100, prediction: false},
-                    {amount: 24200, prediction: false},
-                    {amount: 21230, prediction: false},
-                    {amount: 15000, prediction: false},
-                    {amount: 32000, prediction: true},
-                    {amount: 23200, prediction: true},
-                    {amount: 22000, prediction: true},
-                    {amount: 23300, prediction: true},
-                    {amount: 24100, prediction: true},
-                    {amount: 15200, prediction: true},
-                    {amount: 12400, prediction: true},
+                    { amount: 25000, prediction: false },
+                    { amount: 32100, prediction: false },
+                    { amount: 24200, prediction: false },
+                    { amount: 21230, prediction: false },
+                    { amount: 15000, prediction: false },
+                    { amount: 32000, prediction: true },
+                    { amount: 23200, prediction: true },
+                    { amount: 22000, prediction: true },
+                    { amount: 23300, prediction: true },
+                    { amount: 24100, prediction: true },
+                    { amount: 15200, prediction: true },
+                    { amount: 12400, prediction: true },
                 ]
             },
         ]
@@ -465,69 +465,69 @@ export const dummyForecastItem: ForecastItem[] = [
             {
                 location: dummyLocations[0],
                 months: [
-                    {amount: 25000, prediction: false},
-                    {amount: 32100, prediction: false},
-                    {amount: 24200, prediction: false},
-                    {amount: 21230, prediction: false},
-                    {amount: 15000, prediction: false},
-                    {amount: 32000, prediction: false},
-                    {amount: 23200, prediction: false},
-                    {amount: 22000, prediction: false},
-                    {amount: 23300, prediction: false},
-                    {amount: 24100, prediction: false},
-                    {amount: 15200, prediction: false},
-                    {amount: 12400, prediction: false},
+                    { amount: 25000, prediction: false },
+                    { amount: 32100, prediction: false },
+                    { amount: 24200, prediction: false },
+                    { amount: 21230, prediction: false },
+                    { amount: 15000, prediction: false },
+                    { amount: 32000, prediction: false },
+                    { amount: 23200, prediction: false },
+                    { amount: 22000, prediction: false },
+                    { amount: 23300, prediction: false },
+                    { amount: 24100, prediction: false },
+                    { amount: 15200, prediction: false },
+                    { amount: 12400, prediction: false },
                 ]
             },
             {
                 location: dummyLocations[1],
                 months: [
-                    {amount: 25000, prediction: false},
-                    {amount: 32100, prediction: false},
-                    {amount: 24200, prediction: false},
-                    {amount: 21230, prediction: false},
-                    {amount: 15000, prediction: false},
-                    {amount: 32000, prediction: false},
-                    {amount: 23200, prediction: false},
-                    {amount: 22000, prediction: false},
-                    {amount: 23300, prediction: false},
-                    {amount: 24100, prediction: false},
-                    {amount: 15200, prediction: false},
-                    {amount: 12400, prediction: false},
+                    { amount: 25000, prediction: false },
+                    { amount: 32100, prediction: false },
+                    { amount: 24200, prediction: false },
+                    { amount: 21230, prediction: false },
+                    { amount: 15000, prediction: false },
+                    { amount: 32000, prediction: false },
+                    { amount: 23200, prediction: false },
+                    { amount: 22000, prediction: false },
+                    { amount: 23300, prediction: false },
+                    { amount: 24100, prediction: false },
+                    { amount: 15200, prediction: false },
+                    { amount: 12400, prediction: false },
                 ]
             },
             {
                 location: dummyLocations[3],
                 months: [
-                    {amount: 25000, prediction: false},
-                    {amount: 32100, prediction: false},
-                    {amount: 24200, prediction: false},
-                    {amount: 21230, prediction: false},
-                    {amount: 15000, prediction: false},
-                    {amount: 32000, prediction: false},
-                    {amount: 23200, prediction: false},
-                    {amount: 22000, prediction: false},
-                    {amount: 23300, prediction: false},
-                    {amount: 24100, prediction: false},
-                    {amount: 15200, prediction: false},
-                    {amount: 12400, prediction: false},
+                    { amount: 25000, prediction: false },
+                    { amount: 32100, prediction: false },
+                    { amount: 24200, prediction: false },
+                    { amount: 21230, prediction: false },
+                    { amount: 15000, prediction: false },
+                    { amount: 32000, prediction: false },
+                    { amount: 23200, prediction: false },
+                    { amount: 22000, prediction: false },
+                    { amount: 23300, prediction: false },
+                    { amount: 24100, prediction: false },
+                    { amount: 15200, prediction: false },
+                    { amount: 12400, prediction: false },
                 ]
             },
             {
                 location: dummyLocations[4],
                 months: [
-                    {amount: 25000, prediction: false},
-                    {amount: 32100, prediction: false},
-                    {amount: 24200, prediction: false},
-                    {amount: 21230, prediction: false},
-                    {amount: 15000, prediction: false},
-                    {amount: 32000, prediction: false},
-                    {amount: 23200, prediction: false},
-                    {amount: 22000, prediction: false},
-                    {amount: 23300, prediction: false},
-                    {amount: 24100, prediction: false},
-                    {amount: 15200, prediction: false},
-                    {amount: 12400, prediction: false},
+                    { amount: 25000, prediction: false },
+                    { amount: 32100, prediction: false },
+                    { amount: 24200, prediction: false },
+                    { amount: 21230, prediction: false },
+                    { amount: 15000, prediction: false },
+                    { amount: 32000, prediction: false },
+                    { amount: 23200, prediction: false },
+                    { amount: 22000, prediction: false },
+                    { amount: 23300, prediction: false },
+                    { amount: 24100, prediction: false },
+                    { amount: 15200, prediction: false },
+                    { amount: 12400, prediction: false },
                 ]
             },
         ]
@@ -558,7 +558,7 @@ export const dummySummary: SummaryItem[] = [
                 location: dummyLocations[4],
                 months: [23000, 21500, 22000, 18000, 15000, 19000, 20000, 18000, 19000, 25000, 21000, 22000]
             },
-        ],   
+        ],
     },
     {
         year: 2024,
@@ -584,6 +584,67 @@ export const dummySummary: SummaryItem[] = [
                 months: [23000, 21500, 22000, 18000, 15000, 19000, 20000, 18000, 19000, 25000, 21000, 22000]
             },
         ],
-        
+
     }
+]
+
+export const dForecastYear: ForecastYear[] = [
+    { year: 2025, quantity_total: 12567 },
+    { year: 2024, quantity_total: 23487 },
+    { year: 2023, quantity_total: 11023 },
+    { year: 2022, quantity_total: 11023 },
+    { year: 2021, quantity_total: 11023 },
+    { year: 2020, quantity_total: 11023 },
+]
+
+export const dForecastMonth: ForecastMonth[] = [
+    { month: 1, quantity_total: 1063 },
+    { month: 2, quantity_total: 1413 },
+    { month: 3, quantity_total: 1263 },
+    { month: 4, quantity_total: 1223 },
+    { month: 5, quantity_total: 1123 },
+    { month: 6, quantity_total: 1563 },
+    { month: 7, quantity_total: 1863 },
+    { month: 8, quantity_total: 2063 },
+    { month: 9, quantity_total: 1323 },
+    { month: 10, quantity_total: 1223 },
+    { month: 11, quantity_total: 1763 },
+    { month: 12, quantity_total: 1113 }
+]
+
+export const dForecastItems: ForecastItem[] = [
+    { customer: dummySuppliers[0], purchase_date: '2025-01-02', quantity: 235, type: "invoice", week: 1 },
+    { customer: dummySuppliers[0], purchase_date: '2025-01-09', quantity: 211, type: "cash", week: 2 },
+    { customer: dummySuppliers[0], purchase_date: '2025-01-16', quantity: 182, type: "invoice", week: 3 },
+    { customer: dummySuppliers[0], purchase_date: '2025-01-28', quantity: 98, type: "cash", week: 4 },
+    { customer: dummySuppliers[1], purchase_date: '2025-01-02', quantity: 145, type: "cash", week: 1 },
+    { customer: dummySuppliers[1], purchase_date: '2025-01-16', quantity: 90, type: "invoice", week: 2 },
+    { customer: dummySuppliers[2], purchase_date: '2025-01-02', quantity: 145, type: "cash", week: 1 },
+    { customer: dummySuppliers[2], purchase_date: '2025-01-28', quantity: 90, type: "cash", week: 4 },
+]
+
+export const dForecastWeek: ForecastWeek[] = [
+    {
+        customer: dummySuppliers[0],
+        forecast_item: [
+            { customer: dummySuppliers[0], purchase_date: '2025-01-02', quantity: 235, type: "invoice", week: 1 },
+            { customer: dummySuppliers[0], purchase_date: '2025-01-09', quantity: 211, type: "cash", week: 2 },
+            { customer: dummySuppliers[0], purchase_date: '2025-01-16', quantity: 182, type: "invoice", week: 3 },
+            { customer: dummySuppliers[0], purchase_date: '2025-01-28', quantity: 98, type: "cash", week: 4 },
+        ]
+    },
+    {
+        customer: dummySuppliers[1],
+        forecast_item: [
+            { customer: dummySuppliers[1], purchase_date: '2025-01-02', quantity: 145, type: "cash", week: 1 },
+            { customer: dummySuppliers[1], purchase_date: '2025-01-16', quantity: 90, type: "invoice", week: 2 },
+        ]
+    },
+    {
+        customer: dummySuppliers[2],
+        forecast_item: [
+            { customer: dummySuppliers[2], purchase_date: '2025-01-02', quantity: 145, type: "cash", week: 1 },
+            { customer: dummySuppliers[2], purchase_date: '2025-01-28', quantity: 90, type: "cash", week: 4 },
+        ]
+    },
 ]

@@ -11,7 +11,7 @@ interface PurchaseHistoryContentsProps {
 export default function PurchaseHistoryContents({purchase_histories} : PurchaseHistoryContentsProps) {
     return(
         <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4 w-full">
-            <Link href={route('forecasting.purchase.create')}>
+            <Link href={route('purchase-predictions.purchase.create')}>
                 <Button className="w-full" variant={"outline"}>
                     <Plus />
                     Tambah Purchase Prediction

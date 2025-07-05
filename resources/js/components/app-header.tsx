@@ -10,7 +10,7 @@ import { useInitials } from '@/hooks/use-initials';
 import { cn } from '@/lib/utils';
 import { type BreadcrumbItem, type NavItem, type SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { BookOpen, Box, Building2, ChartLine, Cog, Folder, LayoutGrid, ListOrdered, MapPin, Menu, Receipt } from 'lucide-react';
+import { BookOpen, Box, Building2, ChartArea, ChartLine, Cog, Folder, LayoutGrid, ListOrdered, MapPin, Menu, Receipt } from 'lucide-react';
 import AppLogo from './app-logo';
 import AppLogoIcon from './app-logo-icon';
 
@@ -34,6 +34,11 @@ const mainNavItems: NavItem[] = [
         title: 'Forecasting',
         href: '/forecasting',
         icon: ChartLine,
+    },
+    {
+        title: 'Purchase Predictions',
+        href: '/purchase-predictions',
+        icon: ChartArea,
     },
     {
         title: 'Master',
