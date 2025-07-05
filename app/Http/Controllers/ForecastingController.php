@@ -26,4 +26,9 @@ class ForecastingController extends Controller
             'month' => $month
         ]);
     }
+
+    public function getData()
+    {
+        return Inertia::render('forecasting/forecasting-data');
+    }
 }

@@ -30,8 +30,9 @@ export default function Forecasting({
                         <ChartLine />
                         <p className="text-2xl font-extrabold">Forecasting</p>
                     </div>
+                    <p className="text-sm">Report Perencanaan Pembelian Solar</p>
                 </div>
-                <ForecastYearTable forecast_year={forecast_year}/>
+                <ForecastYearTable forecast_year={forecast_year} />
             </div>
         </AppLayout>
     );

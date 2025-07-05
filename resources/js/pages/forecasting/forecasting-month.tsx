@@ -27,7 +27,8 @@ export default function ForecastingMonth({
                         <ChartLine />
                         <p className="text-2xl font-extrabold">Forecasting</p>
                     </div>
-                    <p className="text-lg font-black">{year}</p>
+                    <p className="text-sm">Report Perencanaan Pembelian Solar</p>
+                    <p className="text-lg font-black">Tahun {year}</p>
                 </div>
                 <ForecastMonthTable year={year} forecast_month={forecast_month} />
             </div>

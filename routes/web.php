@@ -60,6 +60,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::prefix('forecasting')->group( function() {
         Route::get('', [ForecastingController::class, 'index'])->name('forecasting.index');
+        Route::get('data', [ForecastingController::class, 'getData'])->name('forecasting.data');
         Route::prefix('{year}')->group(function(){
             Route::get('', [ForecastingController::class, 'getMonth'])->name('forecasting.month');
             Route::get('/{month}', [ForecastingController::class, 'getWeek'])->name('forecasting.week');
